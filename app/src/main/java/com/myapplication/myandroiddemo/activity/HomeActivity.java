@@ -21,6 +21,7 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
     private Button btn_nestedscrolling;
     private Button btn_immersive;
     private Button btn_diyview;
+    private Button btn_watch;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,6 +56,7 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
         btn_nestedscrolling = (Button) findViewById(R.id.btn_nestedscrolling);
         btn_immersive = (Button) findViewById(R.id.btn_immersive);
         btn_diyview = (Button) findViewById(R.id.btn_diyview);
+        btn_watch = (Button) findViewById(R.id.btn_watch);
 
         btn_sqllite.setOnClickListener(this);
         btn_horizontallistView.setOnClickListener(this);
@@ -65,6 +67,7 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
         btn_nestedscrolling.setOnClickListener(this);
         btn_immersive.setOnClickListener(this);
         btn_diyview.setOnClickListener(this);
+        btn_watch.setOnClickListener(this);
     }
 
     @Override
@@ -98,6 +101,9 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
                 break;
             case R.id.btn_diyview:
                 startActivity(context, DiyViewActivity.class);
+                break;
+            case R.id.btn_watch:
+                startActivity(context, WatchActivity.class);
                 break;
         }
 

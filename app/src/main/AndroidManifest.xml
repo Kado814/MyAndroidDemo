@@ -38,8 +38,9 @@
             android:name=".activity.NavigationDrawerctivity"
             android:label="@string/title_activity_navigation_drawerctivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.ImmersiveActivity"></activity>
-        <activity android:name=".activity.DiyViewActivity"></activity>
+        <activity android:name=".activity.ImmersiveActivity" />
+        <activity android:name=".activity.DiyViewActivity" />
+        <activity android:name=".activity.WatchActivity"></activity>
     </application>
 
 </manifest>
