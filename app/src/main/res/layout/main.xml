@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/btn_sqllite"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_name_sqllite"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/btn_horizontallistView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_name_horizontallistView"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/btn_camera"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_name_camera"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/recyclerview"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_name_recyclerview"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/btn_expandableTextView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="可折叠TextView"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/btn_spannablestringbuilder"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="SpannableStringBuilder(百变文字)"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/btn_nestedscrolling"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="nestedscrolling"
+        android:textAllCaps="false" />
+    <Button
+        android:id="@+id/btn_immersive"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="沉浸式"
+        android:textAllCaps="false" />
+    <Button
+        android:id="@+id/btn_diyview"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="自定义View"
+        android:textAllCaps="false" />
+</LinearLayout>
+
