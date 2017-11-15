@@ -29,5 +29,6 @@ dependencies {
     compile 'com.zhy:base-adapter:2.0.0'
     compile 'com.android.support:design:24.2.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'org.jsoup:jsoup:1.11.1'
     testCompile 'junit:junit:4.12'
 }

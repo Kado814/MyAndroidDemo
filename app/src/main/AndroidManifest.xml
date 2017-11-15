@@ -7,6 +7,7 @@
         android:required="true" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".myApplication"
@@ -40,7 +41,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activity.ImmersiveActivity" />
         <activity android:name=".activity.DiyViewActivity" />
-        <activity android:name=".activity.WatchActivity"></activity>
+        <activity android:name=".activity.WatchActivity" />
+        <activity android:name=".activity.JsoupActivity"></activity>
     </application>
 
 </manifest>

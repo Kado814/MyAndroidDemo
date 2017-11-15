@@ -22,6 +22,7 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
     private Button btn_immersive;
     private Button btn_diyview;
     private Button btn_watch;
+    private Button btn_jsoup;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,7 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
         btn_immersive = (Button) findViewById(R.id.btn_immersive);
         btn_diyview = (Button) findViewById(R.id.btn_diyview);
         btn_watch = (Button) findViewById(R.id.btn_watch);
+        btn_jsoup = (Button) findViewById(R.id.btn_jsoup);
 
         btn_sqllite.setOnClickListener(this);
         btn_horizontallistView.setOnClickListener(this);
@@ -68,6 +70,7 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
         btn_immersive.setOnClickListener(this);
         btn_diyview.setOnClickListener(this);
         btn_watch.setOnClickListener(this);
+        btn_jsoup.setOnClickListener(this);
     }
 
     @Override
@@ -104,6 +107,9 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
                 break;
             case R.id.btn_watch:
                 startActivity(context, WatchActivity.class);
+                break;
+            case R.id.btn_jsoup:
+                startActivity(context, JsoupActivity.class);
                 break;
         }
 
