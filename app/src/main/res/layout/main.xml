@@ -71,10 +71,22 @@
         android:text="自定义表盘"
         android:textAllCaps="false" />
     <Button
-        android:id="@+id/btn_jsoup"
+    android:id="@+id/btn_jsoup"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:text="jsoup解析HTML"
+    android:textAllCaps="false" />
+    <Button
+        android:id="@+id/btn_touch"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="jsoup解析HTML"
+        android:text="TouchEvent机制"
+        android:textAllCaps="false" />
+    <Button
+        android:id="@+id/btn_2048"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="2048"
         android:textAllCaps="false" />
 </LinearLayout>
 

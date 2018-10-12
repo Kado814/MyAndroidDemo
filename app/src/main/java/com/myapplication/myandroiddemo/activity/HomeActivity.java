@@ -23,6 +23,8 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
     private Button btn_diyview;
     private Button btn_watch;
     private Button btn_jsoup;
+    private Button btn_touch;
+    private Button btn_2048;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,6 +61,8 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
         btn_diyview = (Button) findViewById(R.id.btn_diyview);
         btn_watch = (Button) findViewById(R.id.btn_watch);
         btn_jsoup = (Button) findViewById(R.id.btn_jsoup);
+        btn_touch = (Button) findViewById(R.id.btn_touch);
+        btn_2048 = (Button) findViewById(R.id.btn_2048);
 
         btn_sqllite.setOnClickListener(this);
         btn_horizontallistView.setOnClickListener(this);
@@ -71,6 +75,8 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
         btn_diyview.setOnClickListener(this);
         btn_watch.setOnClickListener(this);
         btn_jsoup.setOnClickListener(this);
+        btn_touch.setOnClickListener(this);
+        btn_2048.setOnClickListener(this);
     }
 
     @Override
@@ -96,8 +102,8 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
                 break;
             case R.id.btn_nestedscrolling:
                 startActivity(context, NavigationDrawerctivity.class);
-//                startActivity(context, ScrollingActivity.class);
-//                startActivity(context, NestedScrollingActivity.class);
+                //                startActivity(context, ScrollingActivity.class);
+                //                startActivity(context, NestedScrollingActivity.class);
                 break;
             case R.id.btn_immersive://沉浸式
                 startActivity(context, ImmersiveActivity.class);
@@ -110,6 +116,12 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
                 break;
             case R.id.btn_jsoup:
                 startActivity(context, JsoupActivity.class);
+                break;
+            case R.id.btn_touch:
+                startActivity(context, TouchEventActivity.class);
+                break;
+            case R.id.btn_2048:
+                startActivity(context, MyGame2048Activity.class);
                 break;
         }
 

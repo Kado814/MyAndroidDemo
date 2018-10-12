@@ -42,7 +42,9 @@
         <activity android:name=".activity.ImmersiveActivity" />
         <activity android:name=".activity.DiyViewActivity" />
         <activity android:name=".activity.WatchActivity" />
-        <activity android:name=".activity.JsoupActivity"></activity>
+        <activity android:name=".activity.JsoupActivity" />
+        <activity android:name=".activity.TouchEventActivity" />
+        <activity android:name=".activity.MyGame2048Activity"></activity>
     </application>
 
 </manifest>
