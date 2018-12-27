@@ -1,12 +1,27 @@
 package com.myapplication.myandroiddemo.activity;
 
+import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.hardware.Camera;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.myapplication.myandroiddemo.R;
+import com.myapplication.myandroiddemo.myutils.AppUtils;
+import com.myapplication.myandroiddemo.myutils.FileUtils;
+
+import java.io.File;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+
+import dalvik.system.DexClassLoader;
 
 public class HomeActivity extends MyBaseActivity implements View.OnClickListener {
     /**
@@ -25,6 +40,11 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
     private Button btn_jsoup;
     private Button btn_touch;
     private Button btn_2048;
+    private Button btn_rxjava;
+    private Button btn_apk;
+    private Button constraint;
+    private Button socket;
+    private Button coordinator;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,19 +70,24 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
     }
 
     private void initView() {
-        btn_sqllite = (Button) findViewById(R.id.btn_sqllite);
-        btn_horizontallistView = (Button) findViewById(R.id.btn_horizontallistView);
-        btn_camera = (Button) findViewById(R.id.btn_camera);
-        recyclerview = (Button) findViewById(R.id.recyclerview);
-        btn_expandableTextView = (Button) findViewById(R.id.btn_expandableTextView);
-        btn_spannablestringbuilder = (Button) findViewById(R.id.btn_spannablestringbuilder);
-        btn_nestedscrolling = (Button) findViewById(R.id.btn_nestedscrolling);
-        btn_immersive = (Button) findViewById(R.id.btn_immersive);
-        btn_diyview = (Button) findViewById(R.id.btn_diyview);
-        btn_watch = (Button) findViewById(R.id.btn_watch);
-        btn_jsoup = (Button) findViewById(R.id.btn_jsoup);
-        btn_touch = (Button) findViewById(R.id.btn_touch);
-        btn_2048 = (Button) findViewById(R.id.btn_2048);
+        btn_sqllite = findViewById(R.id.btn_sqllite);
+        btn_horizontallistView = findViewById(R.id.btn_horizontallistView);
+        btn_camera = findViewById(R.id.btn_camera);
+        recyclerview = findViewById(R.id.recyclerview);
+        btn_expandableTextView = findViewById(R.id.btn_expandableTextView);
+        btn_spannablestringbuilder = findViewById(R.id.btn_spannablestringbuilder);
+        btn_nestedscrolling = findViewById(R.id.btn_nestedscrolling);
+        btn_immersive = findViewById(R.id.btn_immersive);
+        btn_diyview = findViewById(R.id.btn_diyview);
+        btn_watch = findViewById(R.id.btn_watch);
+        btn_jsoup = findViewById(R.id.btn_jsoup);
+        btn_touch = findViewById(R.id.btn_touch);
+        btn_2048 = findViewById(R.id.btn_2048);
+        btn_rxjava = findViewById(R.id.btn_rxjava);
+        btn_apk = findViewById(R.id.btn_apk);
+        constraint = findViewById(R.id.btn_apk);
+        socket = findViewById(R.id.socket);
+        coordinator = findViewById(R.id.coordinator);
 
         btn_sqllite.setOnClickListener(this);
         btn_horizontallistView.setOnClickListener(this);
@@ -77,6 +102,11 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
         btn_jsoup.setOnClickListener(this);
         btn_touch.setOnClickListener(this);
         btn_2048.setOnClickListener(this);
+        btn_rxjava.setOnClickListener(this);
+        btn_apk.setOnClickListener(this);
+        constraint.setOnClickListener(this);
+        socket.setOnClickListener(this);
+        coordinator.setOnClickListener(this);
     }
 
     @Override
@@ -123,7 +153,87 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
             case R.id.btn_2048:
                 startActivity(context, MyGame2048Activity.class);
                 break;
+            case R.id.btn_rxjava:
+                startActivity(context, RxJavaActivity.class);
+                break;
+            case R.id.btn_apk:
+
+                FileUtils.getInstance(HomeActivity.this).copyAssetsToSD("apks", "app/apks").
+                        setFileOperateCallback(new FileUtils.FileOperateCallback() {
+                            @Override
+                            public void onSuccess() {
+                                Log.e("kkk", "文件复制成功");
+                                String payAppPackage = "com.algor.payhelper";
+                                if (AppUtils.isPkgInstalled(HomeActivity.this, payAppPackage)) {
+                                    Log.e("kkk", "已安装支付程序");
+                                    Intent intent = new Intent();
+                                    ComponentName componentName = new ComponentName(payAppPackage, "com.example.android.trivialdrivesample.MainActivity");
+                                    intent.setComponent(componentName);
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("data", "kkkkkkkkkk");
+                                    intent.putExtras(bundle);
+                                    startActivity(intent);
+                                } else {
+                                    //                                    AppUtils.silienceInstall(HomeActivity.this,Environment.getExternalStorageDirectory().getAbsolutePath()+"/app/apks/pay.apk");
+                                    AppUtils.install(HomeActivity.this, Environment.getExternalStorageDirectory().getAbsolutePath() + "/app/apks/pay.apk");
+                                }
+                            }
+
+                            @Override
+                            public void onFailed(String error) {
+                                Log.e("kkk", "文件复制失败");
+
+                            }
+                        });
+
+                break;
+            case R.id.constraint:
+                startActivity(context, ConstraintLayoutActivity.class);
+                break;
+            case R.id.socket:
+                startActivity(context, SocketActivity.class);
+                break;
+            case R.id.coordinator:
+                startActivity(context, CoordinatorLayoutActivity.class);
+                break;
         }
 
     }
+
+    public void LoadAPK(Bundle paramBundle, String dexpath, String dexoutputpath) {
+        ClassLoader localClassLoader = ClassLoader.getSystemClassLoader();
+        DexClassLoader localDexClassLoader = new DexClassLoader(dexpath,
+                dexoutputpath, null, localClassLoader);
+        try {
+            PackageInfo plocalObject = getPackageManager()
+                    .getPackageArchiveInfo(dexpath, 1);
+
+            if ((plocalObject.activities != null)
+                    && (plocalObject.activities.length > 0)) {
+                String activityname = plocalObject.activities[0].name;
+                Log.e("kkk", "activityname = " + activityname);
+
+                Class localClass = localDexClassLoader.loadClass(activityname);
+                Constructor localConstructor = localClass
+                        .getConstructor(new Class[]{});
+                Object instance = localConstructor.newInstance(new Object[]{});
+                Log.e("kkk", "instance = " + instance);
+
+                Method localMethodSetActivity = localClass.getDeclaredMethod(
+                        "setActivity", new Class[]{Activity.class});
+                localMethodSetActivity.setAccessible(true);
+                localMethodSetActivity.invoke(instance, new Object[]{this});
+
+                Method methodonCreate = localClass.getDeclaredMethod(
+                        "onCreate", new Class[]{Bundle.class});
+                methodonCreate.setAccessible(true);
+                methodonCreate.invoke(instance, new Object[]{paramBundle});
+            }
+            return;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+
 }
