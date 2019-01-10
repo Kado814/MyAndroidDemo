@@ -23,6 +23,7 @@ import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
+import cn.bmob.v3.Bmob;
 import dalvik.system.DexClassLoader;
 
 public class HomeActivity extends MyBaseActivity implements View.OnClickListener {
@@ -50,10 +51,12 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
     private Button constraint;
     private Button socket;
     private Button coordinator;
+    private Button bmobSDK;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.main);
         initView();
     }
@@ -93,6 +96,7 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
         constraint = findViewById(R.id.btn_apk);
         socket = findViewById(R.id.socket);
         coordinator = findViewById(R.id.coordinator);
+        bmobSDK = findViewById(R.id.bmobSDK);
 
         btn_sqllite.setOnClickListener(this);
         btn_horizontallistView.setOnClickListener(this);
@@ -112,6 +116,7 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
         constraint.setOnClickListener(this);
         socket.setOnClickListener(this);
         coordinator.setOnClickListener(this);
+        bmobSDK.setOnClickListener(this);
     }
 
     @Override
@@ -200,6 +205,9 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
                 break;
             case R.id.coordinator:
                 startActivity(context, CoordinatorLayoutActivity.class);
+                break;
+            case R.id.bmobSDK:
+                startActivity(context, BmobActivity.class);
                 break;
         }
 

@@ -145,6 +145,12 @@
                 android:layout_height="wrap_content"
                 android:text="Annotation"
                 android:textAllCaps="false" />
+            <Button
+                android:id="@+id/bmobSDK"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="bmobSDK"
+                android:textAllCaps="false" />
         </LinearLayout>
     </ScrollView>
 
