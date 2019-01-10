@@ -11,8 +11,10 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.algor.compiler.BindField;
 import com.myapplication.myandroiddemo.R;
 import com.myapplication.myandroiddemo.myutils.AppUtils;
 import com.myapplication.myandroiddemo.myutils.FileUtils;
@@ -27,6 +29,9 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
     /**
      * Called when the activity is first created.
      */
+    @BindField(R.id.test)
+    TextView tv;
+
     private Button btn_sqllite;
     private Button btn_horizontallistView;
     private Button btn_camera;

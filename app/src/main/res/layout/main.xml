@@ -131,11 +131,19 @@
                 android:layout_height="wrap_content"
                 android:text="Socket"
                 android:textAllCaps="false" />
+
             <Button
                 android:id="@+id/coordinator"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="CoordinatorLayout"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/test"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Annotation"
                 android:textAllCaps="false" />
         </LinearLayout>
     </ScrollView>
