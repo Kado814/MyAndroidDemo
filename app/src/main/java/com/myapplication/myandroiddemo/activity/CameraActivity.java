@@ -53,11 +53,11 @@ public class CameraActivity extends MyBaseActivity implements View.OnClickListen
     }
 
     private void creatView() {
-        systemcarema = (Button) findViewById(R.id.systemcarema);
-        systemcarema2 = (Button) findViewById(R.id.systemcarema2);
-        systemvideo = (Button) findViewById(R.id.systemvideo);
-        image1 = (ImageView) findViewById(R.id.image1);
-        videoview = (VideoView) findViewById(R.id.videoview);
+        systemcarema = findViewById(R.id.systemcarema);
+        systemcarema2 = findViewById(R.id.systemcarema2);
+        systemvideo = findViewById(R.id.systemvideo);
+        image1 = findViewById(R.id.image1);
+        videoview = findViewById(R.id.videoview);
 
         systemcarema.setOnClickListener(this);
         systemcarema2.setOnClickListener(this);
@@ -127,8 +127,11 @@ public class CameraActivity extends MyBaseActivity implements View.OnClickListen
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_IMAGE_CAMERA) {
                 Bundle extra = data.getExtras();
-                Bitmap bitmap = (Bitmap) extra.get("data");
-                image1.setImageBitmap(bitmap);
+                Bitmap bitmap = null;
+                if (extra != null) {
+                    bitmap = (Bitmap) extra.get("data");
+                    image1.setImageBitmap(bitmap);
+                }
             } else if (requestCode == REQUEST_TAKE_PHOTE) {
                 MyToast.showShort(context,"照片已经保存至" + mCurrentPhotoPath);
             } else if (requestCode == REQUEST_VIDEO_CAPTURE) {

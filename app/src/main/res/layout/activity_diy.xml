@@ -11,36 +11,44 @@
     <!--android:layout_height="match_parent"-->
     <!--android:layout_centerInParent="true" />-->
     <!--<com.myapplication.myandroiddemo.view.CounterView-->
-        <!--android:layout_width="100dp"-->
-        <!--android:layout_height="100dp" />-->
+    <!--android:layout_width="100dp"-->
+    <!--android:layout_height="100dp" />-->
 
     <!--<com.myapplication.myandroiddemo.view.MyViewGroup-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="@color/colorAccent">-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:background="@color/colorAccent">-->
 
-        <!--<Button-->
-            <!--android:layout_width="150dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="button1" />-->
+    <!--<Button-->
+    <!--android:layout_width="150dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="button1" />-->
 
-        <!--<Button-->
-            <!--android:layout_width="200dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="button2" />-->
+    <!--<Button-->
+    <!--android:layout_width="200dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="button2" />-->
 
-        <!--<Button-->
-            <!--android:layout_width="80dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="button3" />-->
+    <!--<Button-->
+    <!--android:layout_width="80dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="button3" />-->
     <!--</com.myapplication.myandroiddemo.view.MyViewGroup>-->
 
     <!--<com.myapplication.myandroiddemo.view.MyView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="100dp"-->
-        <!--android:layout_gravity="center_horizontal"-->
-        <!--android:background="#ff0000" />-->
-    <com.myapplication.myandroiddemo.view.PathTestView
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="100dp"-->
+    <!--android:layout_gravity="center_horizontal"-->
+    <!--android:background="#ff0000" />-->
+    <!--<com.myapplication.myandroiddemo.view.PathTestView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent" />-->
+    <com.myapplication.myandroiddemo.diyview.PieChartsView
+        android:id="@+id/pieChartsView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />
+    <com.myapplication.myandroiddemo.diyview.PhotoView.PhotoView
+        android:id="@+id/dragImageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
