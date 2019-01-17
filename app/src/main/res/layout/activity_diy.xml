@@ -43,10 +43,22 @@
     <!--<com.myapplication.myandroiddemo.view.PathTestView-->
     <!--android:layout_width="match_parent"-->
     <!--android:layout_height="match_parent" />-->
+    <com.myapplication.myandroiddemo.diyview.TapeView
+        android:id="@+id/tapeWeight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:calibrationWidth="1dp"
+        app:maxValue="100"
+        app:minValue="0"
+        app:per="0.1"
+        app:value="50" />
+
     <com.myapplication.myandroiddemo.diyview.PieChartsView
         android:id="@+id/pieChartsView"
         android:layout_width="match_parent"
         android:layout_height="200dp" />
+
     <com.myapplication.myandroiddemo.diyview.PhotoView.PhotoView
         android:id="@+id/dragImageView"
         android:layout_width="match_parent"

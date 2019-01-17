@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.algor.compiler.BindField;
+import com.myapplication.kotlin.KotlinActivity;
 import com.myapplication.myandroiddemo.R;
 import com.myapplication.myandroiddemo.myutils.AppUtils;
 import com.myapplication.myandroiddemo.myutils.FileUtils;
@@ -52,6 +53,7 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
     private Button socket;
     private Button coordinator;
     private Button bmobSDK;
+    private Button kotlin;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -97,6 +99,7 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
         socket = findViewById(R.id.socket);
         coordinator = findViewById(R.id.coordinator);
         bmobSDK = findViewById(R.id.bmobSDK);
+        kotlin = findViewById(R.id.kotlin);
 
         btn_sqllite.setOnClickListener(this);
         btn_horizontallistView.setOnClickListener(this);
@@ -117,6 +120,7 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
         socket.setOnClickListener(this);
         coordinator.setOnClickListener(this);
         bmobSDK.setOnClickListener(this);
+        kotlin.setOnClickListener(this);
     }
 
     @Override
@@ -208,6 +212,9 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
                 break;
             case R.id.bmobSDK:
                 startActivity(context, BmobActivity.class);
+                break;
+            case R.id.kotlin:
+                startActivity(context, KotlinActivity.class);
                 break;
         }
 

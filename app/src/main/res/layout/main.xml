@@ -151,6 +151,12 @@
                 android:layout_height="wrap_content"
                 android:text="bmobSDK"
                 android:textAllCaps="false" />
+            <Button
+                android:id="@+id/kotlin"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="kotlin"
+                android:textAllCaps="false" />
         </LinearLayout>
     </ScrollView>
 

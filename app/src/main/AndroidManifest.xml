@@ -24,10 +24,10 @@
 
     <application
         android:name=".myApplication"
+        android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
-        android:hardwareAccelerated="false"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".activity.HomeActivity"
@@ -91,7 +91,8 @@
             android:name="cn.bmob.v3.util.BmobContentProvider"
             android:authorities="com.myapplication.myandroiddemo.BmobContentProvider" />
 
-        <activity android:name=".activity.BmobActivity"></activity>
+        <activity android:name=".activity.BmobActivity" />
+        <activity android:name="com.myapplication.kotlin.KotlinActivity"/>
     </application>
 
 </manifest>
