@@ -41,7 +41,6 @@
         <activity android:name=".activity.SqlLiteActivity" />
         <activity android:name=".activity.HorizontalListViewActivity" />
         <activity android:name=".activity.CameraActivity" />
-        <activity android:name=".activity.RecyclerViewActivity" />
         <activity android:name=".activity.ExpandableTextViewActivity" />
         <activity android:name=".activity.SpannableStringBuilderActivity" />
         <activity android:name=".activity.NestedScrollingActivity" />
@@ -92,7 +91,8 @@
             android:authorities="com.myapplication.myandroiddemo.BmobContentProvider" />
 
         <activity android:name=".activity.BmobActivity" />
-        <activity android:name="com.myapplication.kotlin.KotlinActivity"/>
+        <activity android:name="com.myapplication.kotlin.KotlinActivity" />
+        <activity android:name=".activity.TimeLineActivity" />
     </application>
 
 </manifest>

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
-import android.hardware.Camera;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -12,7 +11,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.algor.compiler.BindField;
 import com.myapplication.kotlin.KotlinActivity;
@@ -20,11 +18,9 @@ import com.myapplication.myandroiddemo.R;
 import com.myapplication.myandroiddemo.myutils.AppUtils;
 import com.myapplication.myandroiddemo.myutils.FileUtils;
 
-import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
-import cn.bmob.v3.Bmob;
 import dalvik.system.DexClassLoader;
 
 public class HomeActivity extends MyBaseActivity implements View.OnClickListener {
@@ -37,7 +33,6 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
     private Button btn_sqllite;
     private Button btn_horizontallistView;
     private Button btn_camera;
-    private Button recyclerview;
     private Button btn_expandableTextView;
     private Button btn_spannablestringbuilder;
     private Button btn_nestedscrolling;
@@ -54,6 +49,7 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
     private Button coordinator;
     private Button bmobSDK;
     private Button kotlin;
+    private Button timeline;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -83,7 +79,6 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
         btn_sqllite = findViewById(R.id.btn_sqllite);
         btn_horizontallistView = findViewById(R.id.btn_horizontallistView);
         btn_camera = findViewById(R.id.btn_camera);
-        recyclerview = findViewById(R.id.recyclerview);
         btn_expandableTextView = findViewById(R.id.btn_expandableTextView);
         btn_spannablestringbuilder = findViewById(R.id.btn_spannablestringbuilder);
         btn_nestedscrolling = findViewById(R.id.btn_nestedscrolling);
@@ -100,11 +95,11 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
         coordinator = findViewById(R.id.coordinator);
         bmobSDK = findViewById(R.id.bmobSDK);
         kotlin = findViewById(R.id.kotlin);
+        timeline = findViewById(R.id.timeline);
 
         btn_sqllite.setOnClickListener(this);
         btn_horizontallistView.setOnClickListener(this);
         btn_camera.setOnClickListener(this);
-        recyclerview.setOnClickListener(this);
         btn_expandableTextView.setOnClickListener(this);
         btn_spannablestringbuilder.setOnClickListener(this);
         btn_nestedscrolling.setOnClickListener(this);
@@ -121,6 +116,7 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
         coordinator.setOnClickListener(this);
         bmobSDK.setOnClickListener(this);
         kotlin.setOnClickListener(this);
+        timeline.setOnClickListener(this);
     }
 
     @Override
@@ -134,9 +130,6 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
                 break;
             case R.id.btn_camera:
                 startActivity(context, CameraActivity.class);
-                break;
-            case R.id.recyclerview:
-                startActivity(context, RecyclerViewActivity.class);
                 break;
             case R.id.btn_expandableTextView:
                 startActivity(context, ExpandableTextViewActivity.class);
@@ -215,6 +208,9 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
                 break;
             case R.id.kotlin:
                 startActivity(context, KotlinActivity.class);
+                break;
+            case R.id.timeline:
+                startActivity(context, TimeLineActivity.class);
                 break;
         }
 
