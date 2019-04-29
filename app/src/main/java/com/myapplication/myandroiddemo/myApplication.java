@@ -21,7 +21,7 @@ public class myApplication extends Application {
                 .build();
         XLog.init(LogLevel.ALL, config);
 
-        String jsonString = "{\"name\": \"Elvis\", \"age\": 18}";
+        String jsonString = "{\"name\": \"Elvis\", \"age\": 180}";
         XLog.e("kkkkkkkkkkkkkkkkkkk");
         XLog.e(jsonString);
         XLog.json(jsonString);
