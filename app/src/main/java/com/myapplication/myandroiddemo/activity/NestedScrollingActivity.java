@@ -1,14 +1,11 @@
 package com.myapplication.myandroiddemo.activity;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
-import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.myapplication.myandroiddemo.R;
 import com.myapplication.myandroiddemo.fragment.TabFragment;
 import com.myapplication.myandroiddemo.view.SimpleViewPagerIndicator;

@@ -25,11 +25,11 @@
         android:layout_height="50dp"
         android:background="#ffffffff"></com.myapplication.myandroiddemo.view.SimpleViewPagerIndicator>
 
-    <android.support.v4.view.ViewPager
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/id_stickynavlayout_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </android.support.v4.view.ViewPager>
+    </androidx.viewpager.widget.ViewPager>
 
 </com.myapplication.myandroiddemo.view.StickyNavLayout>

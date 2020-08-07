@@ -2,7 +2,7 @@ package com.myapplication.myandroiddemo.view;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.Gravity;
 import android.widget.FrameLayout;
 import android.widget.TextView;

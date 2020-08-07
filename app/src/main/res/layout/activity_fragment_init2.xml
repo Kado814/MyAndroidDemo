@@ -4,9 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorAccent"
-    tools:context="com.myapplication.myandroiddemo.activity.ImmersiveActivity"
-    tools:keep="@layout/activity_diyview">
-
+    tools:context=".activity.FragmentInitActivity">
 
 </androidx.constraintlayout.widget.ConstraintLayout>

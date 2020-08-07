@@ -1,11 +1,8 @@
 package com.myapplication.myandroiddemo.activity;
 
-import android.graphics.RectF;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
-import android.view.DragEvent;
-import android.view.View;
 
 import com.myapplication.myandroiddemo.R;
 import com.myapplication.myandroiddemo.diyview.PhotoView.OnViewDragListener;

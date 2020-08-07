@@ -160,6 +160,12 @@
                 android:layout_height="wrap_content"
                 android:text="时间线"
                 android:textAllCaps="false" />
+            <Button
+                android:id="@+id/initFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="fragment初始化"
+                android:textAllCaps="false" />
         </com.myapplication.myandroiddemo.diyview.FlowLayout>
     </ScrollView>
 

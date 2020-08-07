@@ -10,9 +10,7 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
-import com.algor.compiler.BindField;
 import com.myapplication.kotlin.KotlinActivity;
 import com.myapplication.myandroiddemo.R;
 import com.myapplication.myandroiddemo.myutils.AppUtils;
@@ -27,8 +25,6 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
     /**
      * Called when the activity is first created.
      */
-    @BindField(R.id.test)
-    TextView tv;
 
     private Button btn_sqllite;
     private Button btn_horizontallistView;
@@ -50,6 +46,7 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
     private Button bmobSDK;
     private Button kotlin;
     private Button timeline;
+    private Button initFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -96,6 +93,7 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
         bmobSDK = findViewById(R.id.bmobSDK);
         kotlin = findViewById(R.id.kotlin);
         timeline = findViewById(R.id.timeline);
+        initFragment = findViewById(R.id.initFragment);
 
         btn_sqllite.setOnClickListener(this);
         btn_horizontallistView.setOnClickListener(this);
@@ -117,6 +115,7 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
         bmobSDK.setOnClickListener(this);
         kotlin.setOnClickListener(this);
         timeline.setOnClickListener(this);
+        initFragment.setOnClickListener(this);
     }
 
     @Override
@@ -211,6 +210,9 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
                 break;
             case R.id.timeline:
                 startActivity(context, TimeLineActivity.class);
+                break;
+            case R.id.initFragment:
+                startActivity(context, FragmentInitActivity.class);
                 break;
         }
 

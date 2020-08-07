@@ -1,6 +1,6 @@
 package com.myapplication.myandroiddemo.activity;
 
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,7 +17,6 @@ import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
-import cn.bmob.v3.update.BmobUpdateAgent;
 
 public class BmobActivity extends AppCompatActivity implements View.OnClickListener {
 
