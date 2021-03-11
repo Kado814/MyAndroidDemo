@@ -23,7 +23,16 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activity.FragmentInitActivity"></activity>
+        <activity
+            android:name=".activity.ui.WebviewActivity"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/AppThemeFullScreen" />
+        <activity android:name=".activity.LottieActivity" />
+        <activity android:name=".activity.GravitySensorActivity" />
+        <activity
+            android:name=".activity.VectorDrawableActivity"
+            android:label="@string/title_activity_vector_drawable" />
+        <activity android:name=".activity.FragmentInitActivity" />
         <activity
             android:name=".activity.HomeActivity"
             android:label="@string/app_name">
@@ -34,7 +43,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.SqlLiteActivity" />
-        <activity android:name=".activity.HorizontalListViewActivity" />
         <activity android:name=".activity.CameraActivity" />
         <activity android:name=".activity.ExpandableTextViewActivity" />
         <activity android:name=".activity.SpannableStringBuilderActivity" />
@@ -44,10 +52,7 @@
             android:name=".activity.ScrollingActivity"
             android:label="@string/title_activity_scrolling"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".activity.NavigationDrawerctivity"
-            android:label="@string/title_activity_navigation_drawerctivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+
         <activity android:name=".activity.DiyViewActivity" />
         <activity android:name=".activity.WatchActivity" />
         <activity android:name=".activity.JsoupActivity" />

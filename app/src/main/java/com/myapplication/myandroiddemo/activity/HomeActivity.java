@@ -13,6 +13,7 @@ import android.widget.Button;
 
 import com.myapplication.kotlin.KotlinActivity;
 import com.myapplication.myandroiddemo.R;
+import com.myapplication.myandroiddemo.activity.ui.WebviewActivity;
 import com.myapplication.myandroiddemo.myutils.AppUtils;
 import com.myapplication.myandroiddemo.myutils.FileUtils;
 
@@ -25,9 +26,7 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
     /**
      * Called when the activity is first created.
      */
-
     private Button btn_sqllite;
-    private Button btn_horizontallistView;
     private Button btn_camera;
     private Button btn_expandableTextView;
     private Button btn_spannablestringbuilder;
@@ -47,6 +46,10 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
     private Button kotlin;
     private Button timeline;
     private Button initFragment;
+    private Button vectorDrawable;
+    private Button gravitySensor;
+    private Button lottie;
+    private Button webView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,7 +77,6 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
 
     private void initView() {
         btn_sqllite = findViewById(R.id.btn_sqllite);
-        btn_horizontallistView = findViewById(R.id.btn_horizontallistView);
         btn_camera = findViewById(R.id.btn_camera);
         btn_expandableTextView = findViewById(R.id.btn_expandableTextView);
         btn_spannablestringbuilder = findViewById(R.id.btn_spannablestringbuilder);
@@ -94,9 +96,12 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
         kotlin = findViewById(R.id.kotlin);
         timeline = findViewById(R.id.timeline);
         initFragment = findViewById(R.id.initFragment);
+        vectorDrawable = findViewById(R.id.vectorDrawable);
+        gravitySensor = findViewById(R.id.gravitySensor);
+        lottie = findViewById(R.id.lottie);
+        webView = findViewById(R.id.webView);
 
         btn_sqllite.setOnClickListener(this);
-        btn_horizontallistView.setOnClickListener(this);
         btn_camera.setOnClickListener(this);
         btn_expandableTextView.setOnClickListener(this);
         btn_spannablestringbuilder.setOnClickListener(this);
@@ -116,6 +121,10 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
         kotlin.setOnClickListener(this);
         timeline.setOnClickListener(this);
         initFragment.setOnClickListener(this);
+        vectorDrawable.setOnClickListener(this);
+        gravitySensor.setOnClickListener(this);
+        lottie.setOnClickListener(this);
+        webView.setOnClickListener(this);
     }
 
     @Override
@@ -123,9 +132,6 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
         switch (view.getId()) {
             case R.id.btn_sqllite:
                 startActivity(context, SqlLiteActivity.class);
-                break;
-            case R.id.btn_horizontallistView:
-                startActivity(context, HorizontalListViewActivity.class);
                 break;
             case R.id.btn_camera:
                 startActivity(context, CameraActivity.class);
@@ -137,8 +143,7 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
                 startActivity(context, SpannableStringBuilderActivity.class);
                 break;
             case R.id.btn_nestedscrolling:
-                startActivity(context, NavigationDrawerctivity.class);
-                //                startActivity(context, ScrollingActivity.class);
+                startActivity(context, ScrollingActivity.class);
                 //                startActivity(context, NestedScrollingActivity.class);
                 break;
             case R.id.btn_immersive://沉浸式
@@ -163,7 +168,6 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
                 startActivity(context, RxJavaActivity.class);
                 break;
             case R.id.btn_apk:
-
                 FileUtils.getInstance(HomeActivity.this).copyAssetsToSD("apks", "app/apks").
                         setFileOperateCallback(new FileUtils.FileOperateCallback() {
                             @Override
@@ -213,6 +217,18 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
                 break;
             case R.id.initFragment:
                 startActivity(context, FragmentInitActivity.class);
+                break;
+            case R.id.vectorDrawable:
+                startActivity(context, VectorDrawableActivity.class);
+                break;
+            case R.id.gravitySensor:
+                startActivity(context, GravitySensorActivity.class);
+                break;
+            case R.id.lottie:
+                startActivity(context, LottieActivity.class);
+                break;
+            case R.id.webView:
+                startActivity(context, WebviewActivity.class);
                 break;
         }
 

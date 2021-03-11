@@ -7,35 +7,52 @@
     android:layout_height="match_parent"
     tools:context=".activity.CoordinatorLayoutActivity">
 
-    <!--AppBarLayout必须作为CoordinatorLayout的直接子View，
-    否则它的大部分功能将不会生效，如layout_scrollFlags等。-->
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
+        <!--  layout_scrollFlags:
+              scroll：滑动出屏幕
+              scroll|snap：当一个滚动事件结束，如果视图是部分可见的，那么它将被滚动到收缩或展开
+              scroll|enterAlways：AppBarLayout在下拉时直接显示，并不会考虑RecyclerView
+                    滚动的位置,下拉的时候，首先滑动的是Toolbar，然后才是RecyclerView
+              scroll|enterAlways|enterAlwaysCollapsed:同时顶部栏的Toolbar设置minHeight属性时，
+                    下拉后会先显示最小高度，到顶部时显示完全。（enterAlwaysCollapsed一般是
+                    配合enterAlways一起使用的，同时一定要给Toolbar设置最小高度(minheight)，
+                    不过Toolbar默认最小高度就是ActionBar的高度…）
+              scroll|exitUntilCollapsed同时顶部栏的Toolbar设置minHeight属性时。当RecyclerView向上
+                    滚动至顶部栏的最小高度后，AppBarLayout不在收缩。下拉时，RecyclerView没有到达最顶部
+                    时，只显示顶部栏最小高度。
+          -->
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:contentScrim="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            app:title="我的标题"
+            app:expandedTitleGravity="left|center_vertical"
+            app:collapsedTitleGravity="center_horizontal|center_vertical"
+            app:contentScrim="@color/colorPrimary"
+            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed">
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="200dp"
                 android:scaleType="centerCrop"
                 android:src="@mipmap/img01"
                 app:layout_collapseMode="parallax"
-                app:layout_scrollFlags="scroll|enterAlways" />
+                app:layout_collapseParallaxMultiplier="0.6"/>
 
             <androidx.appcompat.widget.Toolbar
+                android:layout_marginTop="25dp"
                 android:id="@+id/toolbar"
+                app:contentInsetLeft="0dp"
+                app:contentInsetStart="0dp"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                app:navigationIcon="@drawable/ic_back"
-                app:title="ToolBar" />
+                app:titleMarginEnd="70dp"
+                app:navigationIcon="@drawable/ic_back" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
 
@@ -45,8 +62,7 @@
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    </androidx.recyclerview.widget.RecyclerView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

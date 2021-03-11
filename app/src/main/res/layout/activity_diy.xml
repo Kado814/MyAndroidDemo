@@ -1,10 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp">
+
+        <com.myapplication.myandroiddemo.view.ClassHourProgress
+            android:id="@+id/classhourprogress"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_centerHorizontal="true" />
+
+        <com.myapplication.myandroiddemo.view.CircularCoverView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cover_color="@android:color/white"
+            app:left_bottom_radius="12dp"
+            app:left_top_radius="12dp"
+            app:right_bottom_radius="12dp"
+            app:right_top_radius="12dp" />
+    </RelativeLayout>
 
     <!--<com.myapplication.myandroiddemo.view.WatchBoard-->
     <!--android:layout_width="match_parent"-->

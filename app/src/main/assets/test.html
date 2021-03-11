@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport"
+    content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <style>
+    html,body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+    }
+    body {
+      position: fixed;
+      top: 0;
+      left: 0;
+    }
+    html {
+      font-size: 13.333333vh;
+    }
+    #app {
+      width: 100%;
+      height: 100%;
+      background: rgb(0 196 255 / 63%);
+      position: relative;
+      overflow: hidden;
+    }
+    .restart,.videoPlay,.fullScreen {
+      position: absolute;
+      top: 1rem;
+      left: 50%;
+      z-index: 2;
+      transform: translateX(-4rem);
+      font-size: .32rem;
+      color: #fff;
+    }
+    .videoPlay {
+      top: 2rem;
+    }
+    .fullScreen {
+      top: 3rem;
+    }
+    #canvas {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+    #video {
+      object-fit: contain;
+      display: none;
+      max-width: 100%;
+      height: auto;
+      position: absolute;
+      z-index: 0;
+    }
+    .tv {
+      width: 7rem;
+      height: 5rem;
+      background: #fff;
+      position: absolute;
+      top: .5rem;
+      left: 50%;
+      transform: translateX(-1.5rem);
+    }
+    .tool {
+      height: 1rem;
+      width: 7rem;
+      position: absolute;
+      top: 6rem;
+      left: 50%;
+      transform: translateX(-1.5rem);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .tool .move-block {
+      height: 1rem;
+      width: 1.2rem;
+      background: #fff;
+    }
+    .video-control {
+      position: absolute;
+      z-index: 3;
+      padding: .1rem 0;
+      bottom: 0;
+      width: 100%;
+      height: .4rem;
+      display: flex;
+      align-items: center;
+      transition: transform .3s;
+    }
+    .video-control.hidden {
+      transform: translateY(100%);
+    }
+    .video-control .play-pause {
+      width: .6rem;
+      height: .6rem;
+      position: relative;
+    }
+    .video-control .play-pause::before {
+      content: '';
+      position: absolute;
+      display: block;
+      width: .1rem;
+      height: .4rem;
+      background: white;
+      top: .1rem;
+      left: .15rem;
+    }
+    .video-control .play-pause::after {
+      content: '';
+      position: absolute;
+      display: block;
+      width: .1rem;
+      height: .4rem;
+      background: white;
+      top: .1rem;
+      right: .15rem;
+    }
+    .video-control .play-pause.pause::before {
+      all: unset;
+      content: '';
+      position: absolute;
+      display: block;
+      width: 0;
+      border-top: .2rem solid transparent;
+      border-bottom: .2rem solid transparent;
+      border-left: .3rem solid #ffffff;
+      height: 0;
+      top: .1rem;
+      left: .2rem;
+    }
+    .video-control .play-pause.pause::after {
+      all: unset;
+    }
+    .video-control .proccess {
+      flex: 1 1 auto;
+      height: .4rem;
+      border-radius: .2rem;
+      background: #ffffff;
+      margin: 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .video-control .proccess .loaded {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      border-radius: .2rem;
+      background-color: #eee;
+      transform: translateX(-100%);
+    }
+    .video-control .proccess .current {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      border-radius: .2rem;
+      background-color: orange;
+      transform: translateX(-100%);
+    }
+    .video-control .timeout {
+      width: .8rem;
+      height: .6rem;
+      margin: 0 .1rem;
+      font-size: .28rem;
+      line-height: .6rem;
+      /* font-weight: bold; */
+      letter-spacing: 1px;
+      text-align: center;
+      color: #fff;
+      font-variant-numeric: tabular-nums;
+      font-family: 'Helvetica Neue';
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <video webkit-playsinline playsinline id="video" preload="auto" controls></video>
+    <canvas id="canvas"></canvas>
+    <span id="frame-rate" style="font-size: 14px;color:#333;position: fixed;z-index: 10;"></span>
+    <div class="video-control">
+      <span class="play-pause pause"></span>
+      <span class="proccess">
+        <span class="loaded"></span>
+        <span class="current"></span>
+      </span>
+      <span class="timeout">
+        00:00
+      </span>
+    </div>
+  </div>
+  <script>
+    Array.prototype.number = function () {
+      return this.map(item => -(-item))
+    }
+
+    Array.prototype.last = function () {
+      return this[this.length - 1]
+    }
+
+    Array.prototype.numSort = function () {
+      return this.sort((a, b) => a - b)
+    }
+    class Animate {
+      constructor(fn, direct) {
+        this.pool = []
+        this.fn = fn
+        this.active = false
+        this.running = false
+        this.direct = direct
+      }
+      push(payload) {
+        this.running = true
+        this.pool.push(payload)
+        this.check()
+      }
+      stop() {
+        this.running = false
+      }
+      check() {
+        if (this.pool.length && !this.active) {
+          if(!Animate.ready.includes(this)){
+            Animate.ready.push(this)
+          }
+          Animate.check()
+          // this.active = true
+          // window.requestAnimationFrame(this.done.bind(this))
+        }
+      }
+      done(time) {
+        const args = [...this.pool]
+        this.pool.length = 0
+        if (this.running) {
+          this.fn(this.direct ? args.last() : args,time)
+          this.active = false
+          this.check()
+        } else {
+          this.active = false
+        }
+
+      }
+    }
+    Animate.lastTime = null
+    Animate.lastShowTime = null
+    Animate.frameEl = null
+    Animate.ready = []
+    Animate.active = false
+    Animate.check = function(){
+        if(Animate.ready.length&&!Animate.active){
+          Animate.active = true
+          window.requestAnimationFrame(Animate.done)
+        }
+      }
+    Animate.done = function(time){
+      const deltaTime = time - Animate.lastTime
+      if(deltaTime<1000){
+        if(!Animate.frameEl){
+          Animate.frameEl = document.getElementById('frame-rate')
+        }
+        if(!Animate.lastShowTime||time-Animate.lastShowTime>500){
+          Animate.frameEl.textContent = (1000/deltaTime).toFixed(2)+'fps'
+          Animate.lastShowTime = time
+        }
+      }
+      Animate.lastTime = time
+      if(Animate.ready.length){
+        const ready = [...Animate.ready]
+        Animate.ready.length = 0
+        ready.forEach(item=>item.done(time))
+        Animate.active = false
+        Animate.check()
+      }
+    }
+      
+    class TouchEvent {
+      constructor($body) {
+        this.hub = new WeakMap()
+        this.touches = {}
+        this.lock = false
+        this.timer = null
+        this.$body = $body
+        this.outerHandles = []
+        $body.ontouchstart = this.startHandle.bind(this)
+        $body.ontouchend = this.endHandle.bind(this)
+        $body.ontouchmove = this.moveHandle.bind(this)
+        $body.ontouchcancel = this.cancelHandle.bind(this)
+      }
+      register(payload) {
+        const { el, ...events } = payload
+        const oldObj = this.hub.get(el) || { combo: 0, lastDate: null }
+        for (let eventName in events) {
+          const value = events[eventName]
+          if (eventName === 'click' || eventName === 'press') {
+            oldObj[eventName] = oldObj[eventName] || {}
+            oldObj[eventName][value[0]] = value.slice(1)
+          } else {
+            oldObj[eventName] = value
+          }
+        }
+        this.hub.set(el, oldObj)
+      }
+      startHandle(event) {
+        if (this.lock) {
+          return
+        }
+        // event.preventDefault()
+        event.stopPropagation()
+        const nowDate = new Date().getTime()
+        Array.prototype.forEach.call(event.changedTouches, item => {
+          const { pageX, pageY, identifier, target } = item
+          if (!this.touches[identifier]) {
+            let events
+            let _target = target
+            while (!0) {
+              if (this.hub.has(_target)) {
+                events = this.hub.get(_target)
+                break
+              } else if (_target === document.documentElement) {
+                break
+              } else {
+                _target = _target.parentNode
+              }
+            }
+            if (events) {
+              const touch = { pageX: null, pageY: null, status: TouchEvent.STATUS_DOWN, events, startDate: new Date().getTime() }
+              if (touch.events.lastDate && nowDate - touch.events.lastDate >= TouchEvent.COMBO_DELAY) {
+                touch.events.combo = 0
+              }
+              touch.events.lastDate = nowDate
+              this.touches[identifier] = touch
+              if (events.start) {
+                events.start.bind(touch)(pageX, pageY)
+              }
+              if (events.press) {
+                const timeArr = Object.keys(events.press)
+                const _this = this
+                function timeFn() {
+                  if (timeArr.length) {
+                    const time = timeArr.shift()
+                    return setTimeout(() => {
+                      const [fn, bubble] = events.press[time]
+                      if (bubble) {
+                        _this.timer = timeFn()
+                      } else {
+                        _this.timer = null
+                      }
+                      fn()
+                    }, time)
+                  } else {
+                    return null
+                  }
+                }
+                this.timer = timeFn()
+              }
+            }else if(this.outerHandles){
+              this.outerHandles.forEach(item=>{
+                typeof item === 'function'&&item(pageX,pageY)
+              })
+            }
+          }
+        })
+      }
+      moveHandle(event) {
+        if (this.lock) {
+          return
+        }
+        // event.preventDefault()
+        event.stopPropagation()
+        if (this.timer !== null) {
+          clearTimeout(this.timer)
+        }
+        Array.prototype.forEach.call(event.changedTouches, item => {
+          const { pageX, pageY, identifier } = item
+          const touch = this.touches[identifier]
+          if (!touch) {
+            return
+          }
+          touch.status = TouchEvent.STATUS_MOVE
+          if (touch.events.move && touch.pageX !== null) {
+            touch.events.move.bind(touch)(pageX, pageY)
+          }
+          touch.pageX = pageX
+          touch.pageY = pageY
+        })
+      }
+      endHandle(event) {
+        if (this.lock) {
+          return
+        }
+        // event.preventDefault()
+        event.stopPropagation()
+        if (this.timer !== null) {
+          clearTimeout(this.timer)
+        }
+        const nowDate = new Date().getTime()
+        Array.prototype.forEach.call(event.changedTouches, item => {
+          const { pageX, pageY, identifier } = item
+          const touch = this.touches[identifier]
+          if (!touch) {
+            return
+          }
+          const derDate = nowDate - touch.events.lastDate
+          let execed = false
+          if (touch.status === TouchEvent.STATUS_MOVE) {
+            touch.events.combo = 0
+          } else if (touch.status === TouchEvent.STATUS_DOWN) {
+            if (touch.events.combo === 0) {
+              if (derDate >= TouchEvent.COMBO_DELAY) {
+                /* const pressKey = touch.events.press && Object.keys(touch.events.press).numSort()
+                if (pressKey) {
+                  let tempDate = null
+                  for (let i = 0; i < pressKey.length; i++) {
+                    if (pressKey[i] > derDate) {
+                      break
+                    } else {
+                      tempDate = pressKey[i]
+                    }
+                  }
+                  if (tempDate !== null) {
+                    execed = true
+                    touch.events.press[tempDate].bind(touch)()
+                  }
+                } */
+              } else {
+                touch.events.combo += 1
+              }
+            } else {
+              if (derDate >= TouchEvent.COMBO_DELAY) {
+                touch.events.combo = 0
+              } else {
+                touch.events.combo += 1
+              }
+            }
+            if (touch.events.combo > 0 && touch.events.click && touch.events.click[touch.events.combo] && touch.events.click[touch.events.combo][0]) {
+              execed = true
+              touch.events.click[touch.events.combo][0].bind(touch)()
+            }
+          }
+          touch.events.lastDate = nowDate
+          if (touch.events.end && !execed) {
+            touch.events.end.bind(touch)(pageX, pageY)
+          }
+          delete this.touches[identifier]
+        })
+      }
+      cancelHandle(event) {
+        if (this.timer !== null) {
+          clearTimeout(this.timer)
+        }
+        console.log('cancel:', event)
+      }
+    }
+    TouchEvent.STATUS_DOWN = 0;
+    TouchEvent.STATUS_MOVE = 1;
+    TouchEvent.COMBO_DELAY = 500;
+    function translation(len, fn, time, r = 0) {
+      function dx(dt) {
+        return (2 * v - dt * a) * dt / 2
+      }
+      function rafCallBack(timestamp) {
+        !start && (start = timestamp)
+        const dt = timestamp - start
+        start = timestamp
+        if (dt) {
+          const dlen = dx(dt)
+          fn(dlen)
+          len -= dlen
+          time -= dt
+          v -= dt * a
+        }
+        if (time > dt) {
+          window.requestAnimationFrame(rafCallBack)
+        } else {
+          fn(len, true)
+          resolve()
+        }
+      }
+      const maxV = len / time
+      const v0 = (r > 1 ? 1 : r) * maxV
+      a = 2 * (maxV - v0) / time
+      let v = time * a / 2 + len / time
+      let start = null
+      let resolve
+      return new Promise(r => {
+        resolve = r
+        window.requestAnimationFrame(rafCallBack)
+      })
+    }
+    function ready(fn) {
+      document.addEventListener('DOMContentLoaded', function readyFn() {
+        document.removeEventListener('DOMContentLoaded', readyFn, false)
+        fn()
+      }, false)
+    }
+  </script>
+  <script>
+    function createOffShape({width,height,index,type,params,color}) {
+      width = width|0
+      height = height|0
+      let $offCanvas = document.createElement('canvas')
+      if(type<4){
+        $offCanvas.width = width
+        $offCanvas.height = height
+        const $ctx = $offCanvas.getContext('2d')
+        $ctx.fillStyle = color
+        $ctx.beginPath()
+        switch(type){
+          case 0:
+            $ctx.arc(width/2,height/2,width/2,0,2*Math.PI)
+
+            break
+          case 3:
+            $ctx.moveTo(0,0)
+            $ctx.lineTo(width,0)
+            $ctx.lineTo(width/2,height)
+            $ctx.lineTo(0,0)
+            break
+        }
+        $ctx.closePath()
+        $ctx.fill()
+      }else if(type===4){
+        const _width = width
+        const _height = height
+        const _len = (_width**2+_height**2)**0.5
+        const a = params.rotation || 0
+        const sa = Math.abs(Math.sin(a))
+        const ca = Math.abs(Math.cos(a))
+        width = sa*_height+ca*_width
+        height = ca*_height+sa*_width
+        $offCanvas.width = width
+        $offCanvas.height = height
+        const $ctx = $offCanvas.getContext('2d')
+        $ctx.fillStyle = color
+        $ctx.translate(width/2,height/2)
+        $ctx.rotate(a)
+        $ctx.fillRect(-_width/2,-_height/2,_width,_height)
+      }else if(type===5){
+        const _width = width
+        width = +(_width*1.02).toFixed(0)
+        height = +(_width*1.105).toFixed(0)
+        $offCanvas.width = width
+        $offCanvas.height = height
+        const $ctx = $offCanvas.getContext('2d')
+        $ctx.fillStyle = color
+        const arr = ["M", 100, 63.4, "a", 50, 50, -103.1, 1, 1, -61.1, -52.6, "c", 20.3, -8.3, 36.1, -2.3, 52.2, -9.5, "c", -2.9, 17.7, 8.8, 30.5, 8.9, 62.1, "z"]
+        const noChange = [0,3,6,7,8,11,18,25]
+        const d = arr.map((item,index)=>{
+          if(noChange.includes(index)){
+            return item
+          }else{
+            return (item*_width/100).toFixed(1)
+          }
+        }).join(' ')
+        $ctx.fill(new Path2D(d))
+      }
+      const tvw = document.documentElement.offsetWidth
+      const rw = tvw*9/100*0.8/width
+      const ry = tvw*7.5/100*0.8/height
+      return {img:$offCanvas,scale:Math.min(rw,ry)}
+    }
+    const tvWidth = document.documentElement.offsetHeight*7/7.5
+    const initData = {
+      methods:{
+        node0:[`
+        this.videoShow=true
+        this.imageActive = []
+        this.touchActive = []`],
+        node1:[`
+        this.video.main_el.pause()
+        this.video.controlHidden = false
+        this.videoControlHide(true)
+        this.videoShow = false
+        this.imageActive=['restart',...this.data.icecreamList.map(item=>item[0])]
+        this.data.icecreamMenu = this.data.icecreamList.map(item=>[...item])
+        this.data.icecreamBoard = []
+        this.touchActive=['restart','t0','t1','t2','t3','t4']
+        this.images['restart'].animate('shake',10)`],
+        touch_start:['x','y','name',`
+        const imgName = this.data.icecreamMenu[+name.charAt(1)][0]
+        if(imgName){
+          const item = this.images[imgName]
+          item.deltaX = x - item.x
+          item.deltaY = y - item.y
+          item.transition('active')
+        }`],
+        touch_move:['x','y','name',`
+        const imgName = this.data.icecreamMenu[+name.charAt(1)][0]
+        if(imgName){
+          const item = this.images[imgName]
+          item.follow(x-item.deltaX,y-item.deltaY)
+        }`],
+        touch_end:['x','y','name',`
+        const index = +name.charAt(1)
+        const imgName = this.data.icecreamMenu[index][0]
+        if(imgName){
+          const item = this.images[imgName]
+          const {x:x0,y:y0} = item.transitions.init
+          const {x:x1,y:y1} = item.transitions.aim
+          const d = ((x1-x)**2+(y1-y)**2)**0.5
+          if(d<20){
+            item.transition('aim',()=>{
+              this.data.icecreamBoard.push(imgName)
+              this.data.icecreamMenu[index].shift()
+              this.imageActive = ['restart',...this.data.icecreamBoard,...this.data.icecreamMenu.map(item=>item[0])]
+            })
+          }else{
+            item.transition('init')
+          }
+        }`],
+        restart:[`
+        this.data.icecreamList.forEach(item=>item.forEach(item$=>this.images[item$].static('init')))
+        this.methods.node1()
+        this.video.mainAnimate.push()
+        `]
+      },
+      videos:[
+        {
+          // src:location.origin+'/test/video/abcd.mp4'
+          src:'https://bf-videos-pub.oss-cn-shanghai.aliyuncs.com/test/abcd.mp4'
+        }
+      ],
+      nodes:[
+        {
+          time:124,
+          name:null,
+          handle:'node1'
+        }
+      ],
+      data: {
+        icecreamList:[['san0'],['yuan0','yuan1','yuan2'],['fang0','fang1'],['di0'],['tiao0','tiao1']]
+      },
+      images:[
+            {
+              name:'restart',x:20,y:45,transitions:{
+                shake0:{x:19,rule:[{prop:'translate',type:'speed',value:5}]},
+                shake1:{x:21,rule:[{prop:'translate',type:'speed',value:5}]},
+              },animates:{
+                shake:['shake0','shake1']
+              },...createOffShape({width:tvWidth/6,height:tvWidth/10,params:{},type:4,color:'#333'})
+            },
+            {name:'yuan0',x:54.1,y:86.71,transitions:{
+              active:{scale:1,rule:[{prop:'scale',type:'time',value:300}]},
+              aim:{x:61.55,y:27.87,rule:[{prop:'translate',type:'speed',value:40}]}
+            },...createOffShape({width:tvWidth/5,index:1,height:tvWidth/5,type:0,color:'pink'})},
+            {name:'yuan1',x:54.1,y:86.71,transitions:{
+              active:{scale:1,rule:[{prop:'scale',type:'time',value:300}]},
+              aim:{x:65.82,y:31.54,rule:[{prop:'translate',type:'speed',value:40}]}
+            },...createOffShape({width:tvWidth/6,index:1,height:tvWidth/6,type:0,color:'yellow'})},
+            {name:'yuan2',x:54.1,y:86.71,transitions:{
+              active:{scale:1,rule:[{prop:'scale',type:'time',value:300}]},
+              aim:{x:63.57,y:24.76,rule:[{prop:'translate',type:'speed',value:40}]}
+            },...createOffShape({width:tvWidth/5,index:1,height:tvWidth/5,type:0,color:'red'})},
+            {name:'san0',x:43.3,y:86.71,transitions:{
+              active:{scale:1,rule:[{prop:'scale',type:'time',value:300}]},
+              aim:{x:63.65,y:50.54,rule:[{prop:'translate',type:'speed',value:40}]}
+            },...createOffShape({width:tvWidth/4,index:0,height:tvWidth*3/8,type:3,color:'orange'})},
+            {name:'fang0',x:65,y:86.71,transitions:{
+              active:{scale:1,rule:[{prop:'scale',type:'time',value:300}]},
+              aim:{x:57.83,y:25.93,rule:[{prop:'translate',type:'speed',value:40}]}
+            },...createOffShape({width:tvWidth/16,index:2,height:tvWidth/10,type:4,params:{rotation:-Math.PI/6},color:'#774314'})},
+            {name:'fang1',x:65,y:86.71,transitions:{
+              active:{scale:1,rule:[{prop:'scale',type:'time',value:300}]},
+              aim:{x:61.16,y:16.97,rule:[{prop:'translate',type:'speed',value:40}]}
+            },...createOffShape({width:tvWidth/16,index:2,height:tvWidth/10,type:4,params:{rotation:-Math.PI/6},color:'#774314'})},
+            {name:'di0',x:75.9,y:86.71,transitions:{
+              active:{scale:1,rule:[{prop:'scale',type:'time',value:300}]},
+              aim:{x:64.3,y:24.45,rule:[{prop:'translate',type:'speed',value:40}]}
+            },...createOffShape({width:tvWidth/12,index:3,type:5,color:'rgb(0 196 255)'})},
+            {name:'tiao0',x:86.7,y:86.71,transitions:{
+              active:{scale:1,rule:[{prop:'scale',type:'time',value:300}]},
+              aim:{x:68.33,y:26.57,rule:[{prop:'translate',type:'speed',value:40}]}
+            },...createOffShape({width:tvWidth/60,index:4,height:tvWidth/5,type:4,params:{rotation:Math.PI/6},color:'rgb(133 111 243)'})},
+            {name:'tiao1',x:86.7,y:86.71,transitions:{
+              active:{scale:1,rule:[{prop:'scale',type:'time',value:300}]},
+              aim:{x:69.53,y:29.44,rule:[{prop:'translate',type:'speed',value:40}]}
+            },...createOffShape({width:tvWidth/60,index:4,height:tvWidth/8,type:4,params:{rotation:Math.PI/3},color:'rgb(133 111 243)'})}
+            ],
+      touches:[
+        {
+            name:'t0',
+            startRect:[38.8,80.04,9,13.34],
+            start:'touch_start',
+            move: 'touch_move',
+            end: 'touch_end'
+        },
+        {
+            name:'t1',
+            startRect:[49.6,80.04,9,13.34],
+            start:'touch_start',
+            move: 'touch_move',
+            end: 'touch_end'
+        },
+        {
+            name:'t2',
+            startRect:[60.5,80.04,9,13.34],
+            start:'touch_start',
+            move: 'touch_move',
+            end: 'touch_end'
+        },
+        {
+            name:'t3',
+            startRect:[71.4,80.04,9,13.34],
+            start:'touch_start',
+            move: 'touch_move',
+            end: 'touch_end'
+        },
+        {
+            name:'t4',
+            startRect:[82.2,80.04,9,13.34],
+            start:'touch_start',
+            move: 'touch_move',
+            end: 'touch_end'
+        },
+        {
+          name:'restart',
+          startRect:[11.67,42.1875,16.67,5.625],
+          start:'restart'
+        }
+      ]
+    }
+    initData.images.forEach(item=>{
+      item.transitions['init'] = [{
+        x:item.x,
+        y:item.y,
+        scale:item.scale,
+        rule:[
+          {prop:'translate',type:'time',value:300},
+          {prop:'scale',type:'time',value:300},
+          ]
+      }]
+    })
+  </script>
+  <script>  
+    class REAnimate {
+      constructor(re,{loop,option},callBack){
+        this.re = re
+        this.option = option
+        this.loop = loop
+        this.callBack = callBack
+        this.state = 'waiting'
+        this.time = new Date().getTime()
+        this.runningTime = null
+        this.list = []
+        this.runningIndex = 0
+        this.countTime = 0
+        option.forEach((item,index)=>{
+          const {rule,...res} = item
+          const last = index===0 ? re : option[index-1]
+          if(rule&&rule.length){
+            for(let i =0;i<rule.length;i++){
+              const r = rule[i]
+              if(r.prop==='translate'&&(item.x!==undefined||item.y!==undefined)){
+                const l = ((item.x!==undefined ? item.x-last.x : 0 )**2 + (item.y!==undefined ? item.y-last.y : 0 )**2)**0.5
+                if(l!==0){
+                  const duration = r.type==='speed' ? l/r.value*1000 : r.value
+                  this.list.push({...res,duration})
+                  break
+                }
+              }
+              if(r.prop==='scale'&&item.scale!==undefined&&item.scale!==last.scale){
+                const duration = r.type==='speed' ? Math.abs(item.scale-last.scale)/r.value*1000 : r.value
+                this.list.push({...res,duration})
+                break
+              }
+              if(r.prop==='static'){
+                this.list.push({...res})
+                break
+              }
+            }
+          }else{
+            this.list.push({...res})
+          }
+        })
+        this.start()
+      }
+      start(){
+        if(this.state==='waiting'){
+          this.state='running'
+        }
+      }
+      update(time){
+        if(this.state==='running'){
+          let deltaTime
+          if(this.runningTime===null){
+            deltaTime = new Date().getTime() - this.time
+            this.runningTime = 0
+            this.time = time
+          }else{
+            deltaTime = time - this.time
+            this.time = time
+          }
+          //增量变换
+          let duration = this.list[this.runningIndex].duration || 0
+          const headTime = this.runningTime - this.countTime
+          this.runningTime+=deltaTime
+          if(headTime+deltaTime>duration){
+            let tempHeadTime = headTime+deltaTime
+            while(tempHeadTime>duration){
+              tempHeadTime-=duration
+              const {duration:d1,...res} = this.list[this.runningIndex]
+              for(let k in res){
+                this.re[k] = res[k]
+              }
+              if(this.runningIndex===this.list.length-1){
+                if(this.loop){
+                  if(typeof this.loop==='number'){
+                    this.loop--
+                  }
+                  this.runningTime = tempHeadTime
+                  this.runningIndex = 0
+                  this.countTime = 0
+                  duration = this.list[this.runningIndex].duration || 0
+                  continue
+                }
+                duration = 0
+                this.state = 'end'
+                this.callBack&&this.callBack()
+                this.re.animateList.splice(this.re.animateList.indexOf(this),1)
+                this.re.root.animateNum-=1
+                break
+              }
+              this.runningIndex+=1
+              duration = this.list[this.runningIndex].duration || 0
+            }
+            if(duration){
+              const {druation:d2,...res} = this.list[this.runningIndex]
+              for(let k in res){
+                this.re[k] += (res[k]-this.re[k])*tempHeadTime/duration
+              }
+            }
+          }else{
+            const {duration:d3,...res} = this.list[this.runningIndex]
+            for(let k in res){
+              this.re[k] += (res[k]-this.re[k])*deltaTime/(duration-headTime)
+            }
+          }
+        }
+      }
+      pause(){}
+    }
+    class RenderElement {
+      constructor(data,root){
+        this.root = root
+        this.name = data.name
+        this.x = data.x || 0
+        this.y = data.y || 0
+        this.scale = data.scale === undefined ? 1 : data.scale
+        if(data.img){
+          this.complete = true
+          this.image = data.img
+        }else{
+          this.image = new Image()
+          this.complete = false
+          this.image.onload = ()=>{
+            this.complete = true
+          }
+          this.image.src = data.src
+        }
+        
+        this.animateList = []
+        this.transitions =  {...data.transitions}
+        this.animates = {...data.animates}
+      }
+      follow(x,y,fn){
+        if(fn&&typeof fn === 'function'){
+          fn(x,y)
+        }else{
+          this.x = x
+          this.y = y
+        }
+        this.root.video.mainAnimate.push()
+      }
+      static(option){
+        if(typeof option === 'string'&&option in this.transitions){
+          option = this.transitions[option]
+        }
+        if(!Array.isArray(option)){
+          option = [option]
+        }
+        option.forEach(item=>{
+          const {druation,...res} = item
+          for(let k in res){
+            this[k] = res[k]
+          }
+        })
+      }
+      transition(option,callBack){
+        if(typeof option === 'string'&&option in this.transitions){
+          option = this.transitions[option]
+        }
+        if(!Array.isArray(option)){
+          option = [option]
+        }
+        this.animateList.push(new REAnimate(this,{option},callBack))
+        this.root.animateNum+=1
+        this.root.video.mainAnimate.push()
+      }
+      animate(option,time){
+        if(typeof option === 'string'&&option in this.animates){
+          option = this.animates[option]
+        }
+        if(!Array.isArray(option)){
+          option = [option]
+        }
+        option = option.map(name=>this.transitions[name])
+        this.animateList.push(new REAnimate(this,{option,loop:time||true}))
+        this.root.animateNum+=1
+        this.root.video.mainAnimate.push()
+      }
+    }
+    class Page {
+      constructor(initData){
+        this.initData = initData
+        this.data = initData.data
+        this.animateNum = 0
+        this.screenWidth = document.documentElement.offsetWidth
+        this.screenHeight = document.documentElement.offsetHeight
+        this.methods = {}
+        for(let fname in initData.methods){
+          this.methods[fname] = this.createFunction(initData.methods[fname])
+        }
+        this.init()
+      }
+      init(){
+        this.initImages()
+        this.initTouches()
+        this.initNodes()
+        this.initVideo()
+        this.initCanvas()
+        this.initApp()
+      }
+      initApp(){
+        this.$app = document.getElementById('app')
+        this.imageActive = []
+        this.touchActive = []
+        this.touch = new TouchEvent(this.$app)
+        this.touch.register({
+          el: this.video.play_pause_el,
+          end: ()=>{
+            const $video = this.video.main_el
+            const $videoPlayPause = this.video.play_pause_el
+            if($video.paused){
+              $video.play()
+              $videoPlayPause.classList.remove('pause')
+              this.video.mainAnimate.push()
+            }else{
+              $video.pause()
+              $videoPlayPause.classList.add('pause')
+            }
+          }
+        })
+        this.touch.register({
+          el: this.video.proccess_el,
+          start:(pageX,pageY)=>{
+            const $video = this.video.main_el
+            const site = this.getSite(pageX,pageY,this.video.control_rect)
+            if(!site)return
+            const rx = site[0]
+            this.video.onControl = true
+            if(rx*100>=+this.video.progress){
+              this.video.outLoaded = true
+              return
+            }
+            this.video.outLoaded = false
+            this.video.currentAnimate.push((rx*100).toFixed(2))
+            this.video.mainAnimate.push(rx*$video.duration)
+            if(!$video.paused){
+              $video.pause()
+            }
+          },
+          move:(pageX,pageY)=>{
+            const $video = this.video.main_el
+            if(!this.video.onControl)return
+            const site = this.getSite(pageX,pageY,this.video.control_rect)
+            if(!site)return
+            const rx = site[0]
+            if(rx*100<+this.video.progress){
+              this.video.currentAnimate.push((rx*100).toFixed(2))
+              this.video.mainAnimate.push(rx*$video.duration)
+            }
+          },
+          end:()=>{
+            this.video.onControl = false
+            if(![...this.video.play_pause_el.classList].includes('pause')){
+              this.video.main_el.play()
+              this.video.play_pause_el.classList.remove('pause')
+              this.video.mainAnimate.push()
+            }
+          }
+        })
+        this.touch.register({
+          el:this.canvas.el,
+          start:(pageX,pageY)=>{
+            const len = this.touchActive.length
+            if(len){
+              for(let index = len-1;index>-1;index--){
+                const name = this.touchActive[index]
+                const item = this.touches[name]
+                if(this.getSite(pageX,pageY,item.startRect.map((item,index)=>item*[index%2===0?this.screenWidth:this.screenHeight]/100))){//?
+                  pageX/=this.screenWidth/100
+                  pageY/=this.screenHeight/100
+                  this.touchDetail.name = name
+                  this.touchDetail.initX = pageX
+                  this.touchDetail.initY = pageY
+                  this.touchDetail.pageX = pageX
+                  this.touchDetail.pageY = pageY
+                  item.start(pageX,pageY,name)
+                  break
+                }
+              }
+            }
+            if(this.videoShow){
+              if(this.video.controlHidden){
+                this.video.controlHidden = false
+                this.videoControlHide(false)
+              }else{
+                this.video.controlHidden = true
+                this.videoControlHide(true)
+              }
+            }
+          },
+          move:(pageX,pageY)=>{
+            const name = this.touchDetail.name
+            if(name){
+              pageX/=this.screenWidth/100
+              pageY/=this.screenHeight/100
+              this.touchDetail.pageX = pageX
+              this.touchDetail.pageY = pageY
+              const item = this.touches[name]
+              item.move&&item.move(pageX,pageY,name)
+            }
+          },
+          end: (pageX,pageY)=>{
+            const name = this.touchDetail.name
+            if(name){
+              pageX/=this.screenWidth/100
+              pageY/=this.screenHeight/100
+              this.touchDetail.pageX = pageX
+              this.touchDetail.pageY = pageY
+              const item = this.touches[name]
+              item.end&&item.end(pageX,pageY,name)
+              this.touchDetail.name = null
+            }
+          }
+        })
+      }
+      initImages(){
+        this.images = this.images || {}
+        this.initData.images.forEach(item=>{
+          this.images[item.name] = new RenderElement(item,this)
+        })
+      }
+      initTouches(){
+        this.touchDetail = {}
+        this.touches = this.touches || {}
+        this.initData.touches.forEach(item=>{
+          const {name,startRect,limitRect,start,move,end} = item
+          this.touches[name] = Object.assign(this.touches[name] || {},{startRect,limitRect})
+          this.touches[name].start = this.methods[start]
+          this.touches[name].move = this.methods[move]
+          this.touches[name].end = this.methods[end]
+        })
+      }
+      initNodes(){
+        this.nodeTimes = []
+        this.nodes = {}
+        this.initData.nodes.forEach(item=>{
+          const {time,name,handle} = item
+          if(time!==undefined){
+            this.nodeTimes.push(time)
+          }
+          this.nodes[time === undefined ? name : time] = {
+            time,
+            name,
+            handle: this.methods[handle]
+          }
+        })
+      }
+      initVideo(){
+        const $proccess = document.querySelector('.proccess')
+        const $video = document.getElementById('video')
+        this.videoShow = true
+        this.video = {
+          canAutoPlay: false,
+          main_el: $video,
+          control_el: document.querySelector('.video-control'),
+          proccess_el: $proccess,
+          loaded_el: document.querySelector('.loaded'),
+          current_el: document.querySelector('.current'),
+          play_pause_el: document.querySelector('.play-pause'),
+          timeout_el: document.querySelector('.timeout'),
+          control_rect: $proccess.getBoundingClientRect(),
+          loadedAnimate: new Animate(p=>this.video.loaded_el.style.transform=`translateX(-${100-p}%)`,true),
+          currentAnimate: new Animate(p=>this.video.current_el.style.transform=`translateX(-${100-p}%)`,true),
+          mainAnimate: new Animate((time,fameTime)=>{
+            const $video = this.video.main_el
+            const $canvas = this.canvas.el
+            const dpr = this.canvas.dpr
+            if(!this.video.size){
+              const {videoWidth:vw,videoHeight:vh} = $video
+              const cw = $canvas.width/dpr
+              const ch = $canvas.height/dpr
+              let nw,nh
+              if(vw/vh>cw/ch){
+                nw = cw
+                nh = vh/vw*nw
+              }else{
+                nh = ch
+                nw = vw/vh*nh
+              }
+              this.video.size = [(cw-nw)/2,(ch-nh)/2,nw,nh]
+            }
+            if(time!==undefined){
+              $video.currentTime = time
+            }
+            // this.canvas.ctx.drawImage($video,...this.video.size)
+            if(this.animateNum){
+              for(let imageName in this.images){
+                const item = this.images[imageName]
+                if(item.animateList&&item.animateList.length){
+                  item.animateList.forEach(item$=>item$.update(fameTime))
+                }
+              }
+            }
+            this.draw()
+            if(!$video.paused&&!$video.ended||this.animateNum){
+              this.video.mainAnimate.push()
+            }
+          },true),
+          progress: '0',
+          current: '0',
+          timeStr: '00:00',
+          size: null,
+          controlHidden: true,
+          onControl: false,
+          outLoaded: false
+        }
+        $video.onprogress = e => {
+          const $video = this.video.main_el
+          const buffered = $video.buffered
+          if(buffered.length){
+            const progress = (buffered.end(buffered.length - 1)/$video.duration*100).toFixed(2)
+            if(this.video.progress!==progress){
+              this.video.progress = progress
+              this.video.loadedAnimate.push(progress)
+            }
+          }
+        }
+
+        $video.ondurationchange = () => {
+          const $video = this.video.main_el
+          if($video.duration){
+            const str = this.time2str($video.duration)
+            if(this.video.timeStr!==str){
+              this.video.timeStr = str
+              this.video.timeout_el.textContent = this.video.timeStr
+            }
+          }
+        }
+
+        $video.onplaying = () => {
+          this.video.mainAnimate.push()
+        }
+
+        $video.onpause = () => {
+          if(this.video.controlHidden){
+            this.video.controlHidden = false
+            this.video.control_el.classList.remove('hidden')
+          }
+        }
+
+        $video.onended = () => {
+          this.video.play_pause_el.classList.add('pause')
+        }
+
+        $video.onseeked = () => {
+          this.video.mainAnimate.push()
+        }
+        $video.onloadedmetadata = () => {
+          if(this.video.canAutoPlay){
+            this.video.main_el.play()
+          }
+        }
+        $video.ontimeupdate = () => {
+          const $video = this.video.main_el
+
+          if($video.duration){
+            this.checkTime()
+            const p = ($video.currentTime/$video.duration*100).toFixed(2)
+            if(this.video.current!==p&&!this.video.onControl){
+              this.video.current = p
+              this.video.currentAnimate.push(p)
+            }
+            const str = this.time2str($video.duration - $video.currentTime)
+            if(this.video.timeStr!==str){
+              this.video.timeStr = str
+              this.video.timeout_el.textContent = this.video.timeStr
+            }
+          }
+        }
+        if(new URL(this.initData.videos[0].src).origin!==window.location.origin){
+          this.video.main_el.src = this.initData.videos[0].src
+        }else{
+          this.loadVideo(this.initData.videos[0].src,p=>this.video.loadedAnimate.push(p)).then(blob=>{
+            const url = window.URL.createObjectURL(blob)
+            this.video.main_el.src = url
+          })
+        }
+      }
+      initCanvas(){
+        const $canvas = document.getElementById('canvas')
+        const dpr = window.devicePixelRatio
+        this.canvas = {
+          el: $canvas,
+          ctx: $canvas.getContext('2d'),
+          dpr
+        }
+        $canvas.width = document.documentElement.offsetWidth*dpr
+        $canvas.height = document.documentElement.offsetHeight*dpr
+        this.canvas.ctx.scale(dpr,dpr)
+      }
+      draw(){
+        this.canvas.ctx.clearRect(0,0,this.canvas.el.width,this.canvas.el.height)
+        if(this.videoShow){
+          this.canvas.ctx.drawImage(this.video.main_el,...this.video.size)
+        }
+        if(this.imageActive.length){
+          this.imageActive.forEach(name=>{
+            if(name in this.images){
+              const item = this.images[name]
+              const image = item.image
+              const x = item.x/100*this.screenWidth
+              const y = item.y/100*this.screenHeight
+              const scale = item.scale
+              const {width,height} = image
+              this.canvas.ctx.drawImage(image,x-scale*width/2,y-scale*height/2,width*scale,height*scale)
+            }
+          })
+        }
+      }
+      createFunction(arr=[]){
+        return new Function(...arr).bind(this)
+      }
+      checkTime(time){
+        time = time === undefined ? this.video.main_el.currentTime : time
+        if(this.nodeTimes.length){
+          const nodeTime = this.nodeTimes.find(item=>Math.abs(time-item)<0.2)
+          if(nodeTime!==undefined&&nodeTime in this.nodes){
+            const {time,date} = this.nodeTimeHit || {}
+            const nowDate = new Date().getTime()
+            if(time!==nodeTime||nowDate-date>=500){
+              this.nodeTimeHit = {time:nodeTime,date:nowDate}
+              this.nodes[nodeTime].handle()
+            }
+          }
+        }
+      }
+      loadVideo(src,handle){
+        return new Promise(resolve=>{
+          const xhr = new XMLHttpRequest()
+          xhr.open('GET',src)
+          // xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+          xhr.responseType = 'blob'
+          xhr.onprogress = evt => {
+            handle&&evt.total&&handle((evt.loaded/evt.total*100).toFixed(2))
+          }
+          xhr.onload = e => {
+            xhr.readyState === 4 && xhr.status === 200 && resolve(xhr.response)
+          }
+          xhr.send()
+        })
+      }
+
+      videoControlHide(hide){
+        if(hide){
+          this.video.control_el.classList.add('hidden')
+        }else{
+          this.video.control_el.classList.remove('hidden')
+        }
+      }
+
+      time2str(time){
+        time = time|0
+        const m = time/60|0
+        const s = time%60
+        return ('0'+m).slice(-2)+':'+('0'+s).slice(-2)
+      }
+      
+      getSite(pageX,pageY,rect){
+        if(Array.isArray(rect)){
+          var [left,top,width,height] = rect
+        }else{
+          var {left,top,width,height} = rect
+        }
+        if(pageX>left&&pageX<left+width&&pageY>top&&pageY<top+height){
+          return [(pageX-left)/width,(pageY-top)/height]
+        }else{
+          return false
+        }
+      }
+    }
+  </script>
+  <script>
+    ready(function(){
+      const page = new Page(initData)
+      window.$page = page
+    })
+  </script>
+</body>
+</html>

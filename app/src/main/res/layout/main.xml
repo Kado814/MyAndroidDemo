@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <ScrollView
@@ -12,23 +12,16 @@
         <com.myapplication.myandroiddemo.diyview.FlowLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             app:flChildSpacing="auto"
             app:flChildSpacingForLastRow="align"
-            app:flRowSpacing="8dp"
-            android:orientation="vertical">
+            app:flRowSpacing="8dp">
 
             <Button
                 android:id="@+id/btn_sqllite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/btn_name_sqllite"
-                android:textAllCaps="false" />
-
-            <Button
-                android:id="@+id/btn_horizontallistView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/btn_name_horizontallistView"
                 android:textAllCaps="false" />
 
             <Button
@@ -142,30 +135,63 @@
                 android:layout_height="wrap_content"
                 android:text="Annotation"
                 android:textAllCaps="false" />
+
             <Button
                 android:id="@+id/bmobSDK"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="bmobSDK"
                 android:textAllCaps="false" />
+
             <Button
                 android:id="@+id/kotlin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="kotlin"
                 android:textAllCaps="false" />
+
             <Button
                 android:id="@+id/timeline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="时间线"
                 android:textAllCaps="false" />
+
             <Button
                 android:id="@+id/initFragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="fragment初始化"
                 android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/vectorDrawable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="VectorDrawable"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/gravitySensor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="重力感应球"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/lottie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="lottie动画"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/webView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="webView"
+                android:textAllCaps="false" />
+
         </com.myapplication.myandroiddemo.diyview.FlowLayout>
     </ScrollView>
 
