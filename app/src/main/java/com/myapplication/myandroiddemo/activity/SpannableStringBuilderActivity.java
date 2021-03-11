@@ -27,9 +27,17 @@ public class SpannableStringBuilderActivity extends MyBaseActivity {
      */
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.spannablestringbuilder);
+    protected int getLayoutResId() {
+        return R.layout.spannablestringbuilder;
+    }
+
+    @Override
+    protected void initData() {
+
+    }
+
+    @Override
+    protected void initView() {
         mode1();
         mode2();
         mode3();

@@ -24,11 +24,21 @@ android {
     }
 
     useLibrary 'org.apache.http.legacy'
+
+    //    ButterKnife
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 //    implementation 'aandroidx.appcompat:appcompat:1.1.0'
+
+    implementation 'com.jakewharton:butterknife:10.2.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
+
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.ms-square:expandableTextView:0.1.4'

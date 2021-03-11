@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 
 import com.myapplication.kotlin.KotlinActivity;
 import com.myapplication.myandroiddemo.R;
@@ -20,152 +19,72 @@ import com.myapplication.myandroiddemo.myutils.FileUtils;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
+import butterknife.OnClick;
 import dalvik.system.DexClassLoader;
 
-public class HomeActivity extends MyBaseActivity implements View.OnClickListener {
+public class HomeActivity extends MyBaseActivity {
     /**
      * Called when the activity is first created.
      */
-    private Button btn_sqllite;
-    private Button btn_camera;
-    private Button btn_expandableTextView;
-    private Button btn_spannablestringbuilder;
-    private Button btn_nestedscrolling;
-    private Button btn_immersive;
-    private Button btn_diyview;
-    private Button btn_watch;
-    private Button btn_jsoup;
-    private Button btn_touch;
-    private Button btn_2048;
-    private Button btn_rxjava;
-    private Button btn_apk;
-    private Button constraint;
-    private Button socket;
-    private Button coordinator;
-    private Button bmobSDK;
-    private Button kotlin;
-    private Button timeline;
-    private Button initFragment;
-    private Button vectorDrawable;
-    private Button gravitySensor;
-    private Button lottie;
-    private Button webView;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.main);
-        initView();
+    protected int getLayoutResId() {
+        return R.layout.main;
     }
 
     @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        //沉浸式--只需要这几句代码
-        if (hasFocus && Build.VERSION.SDK_INT >= 19) {
-            View decorView = getWindow().getDecorView();
-            decorView.setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-        }
-    }
+    protected void initData() {
 
-    private void initView() {
-        btn_sqllite = findViewById(R.id.btn_sqllite);
-        btn_camera = findViewById(R.id.btn_camera);
-        btn_expandableTextView = findViewById(R.id.btn_expandableTextView);
-        btn_spannablestringbuilder = findViewById(R.id.btn_spannablestringbuilder);
-        btn_nestedscrolling = findViewById(R.id.btn_nestedscrolling);
-        btn_immersive = findViewById(R.id.btn_immersive);
-        btn_diyview = findViewById(R.id.btn_diyview);
-        btn_watch = findViewById(R.id.btn_watch);
-        btn_jsoup = findViewById(R.id.btn_jsoup);
-        btn_touch = findViewById(R.id.btn_touch);
-        btn_2048 = findViewById(R.id.btn_2048);
-        btn_rxjava = findViewById(R.id.btn_rxjava);
-        btn_apk = findViewById(R.id.btn_apk);
-        constraint = findViewById(R.id.btn_apk);
-        socket = findViewById(R.id.socket);
-        coordinator = findViewById(R.id.coordinator);
-        bmobSDK = findViewById(R.id.bmobSDK);
-        kotlin = findViewById(R.id.kotlin);
-        timeline = findViewById(R.id.timeline);
-        initFragment = findViewById(R.id.initFragment);
-        vectorDrawable = findViewById(R.id.vectorDrawable);
-        gravitySensor = findViewById(R.id.gravitySensor);
-        lottie = findViewById(R.id.lottie);
-        webView = findViewById(R.id.webView);
-
-        btn_sqllite.setOnClickListener(this);
-        btn_camera.setOnClickListener(this);
-        btn_expandableTextView.setOnClickListener(this);
-        btn_spannablestringbuilder.setOnClickListener(this);
-        btn_nestedscrolling.setOnClickListener(this);
-        btn_immersive.setOnClickListener(this);
-        btn_diyview.setOnClickListener(this);
-        btn_watch.setOnClickListener(this);
-        btn_jsoup.setOnClickListener(this);
-        btn_touch.setOnClickListener(this);
-        btn_2048.setOnClickListener(this);
-        btn_rxjava.setOnClickListener(this);
-        btn_apk.setOnClickListener(this);
-        constraint.setOnClickListener(this);
-        socket.setOnClickListener(this);
-        coordinator.setOnClickListener(this);
-        bmobSDK.setOnClickListener(this);
-        kotlin.setOnClickListener(this);
-        timeline.setOnClickListener(this);
-        initFragment.setOnClickListener(this);
-        vectorDrawable.setOnClickListener(this);
-        gravitySensor.setOnClickListener(this);
-        lottie.setOnClickListener(this);
-        webView.setOnClickListener(this);
     }
 
     @Override
+    protected void initView() {
+    }
+
+
+    @OnClick({R.id.btn_sqllite, R.id.btn_camera, R.id.btn_expandableTextView, R.id.btn_spannablestringbuilder,
+            R.id.btn_nestedscrolling, R.id.btn_immersive, R.id.btn_diyview, R.id.btn_watch, R.id.btn_jsoup,
+            R.id.btn_touch, R.id.btn_2048, R.id.btn_rxjava, R.id.btn_apk, R.id.constraint, R.id.socket,
+            R.id.coordinator, R.id.bmobSDK, R.id.kotlin, R.id.timeline, R.id.initFragment, R.id.vectorDrawable,
+            R.id.gravitySensor, R.id.lottie, R.id.webView})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_sqllite:
-                startActivity(context, SqlLiteActivity.class);
+                startActivity(SqlLiteActivity.class);
                 break;
             case R.id.btn_camera:
-                startActivity(context, CameraActivity.class);
+                startActivity(CameraActivity.class);
                 break;
             case R.id.btn_expandableTextView:
-                startActivity(context, ExpandableTextViewActivity.class);
+                startActivity(ExpandableTextViewActivity.class);
                 break;
             case R.id.btn_spannablestringbuilder:
-                startActivity(context, SpannableStringBuilderActivity.class);
+                startActivity(SpannableStringBuilderActivity.class);
                 break;
             case R.id.btn_nestedscrolling:
-                startActivity(context, ScrollingActivity.class);
+                startActivity(ScrollingActivity.class);
                 //                startActivity(context, NestedScrollingActivity.class);
                 break;
             case R.id.btn_immersive://沉浸式
-                startActivity(context, ImmersiveActivity.class);
+                startActivity(ImmersiveActivity.class);
                 break;
             case R.id.btn_diyview:
-                startActivity(context, DiyViewActivity.class);
+                startActivity(DiyViewActivity.class);
                 break;
             case R.id.btn_watch:
-                startActivity(context, WatchActivity.class);
+                startActivity(WatchActivity.class);
                 break;
             case R.id.btn_jsoup:
-                startActivity(context, JsoupActivity.class);
+                startActivity(JsoupActivity.class);
                 break;
             case R.id.btn_touch:
-                startActivity(context, TouchEventActivity.class);
+                startActivity(TouchEventActivity.class);
                 break;
             case R.id.btn_2048:
-                startActivity(context, MyGame2048Activity.class);
+                startActivity(MyGame2048Activity.class);
                 break;
             case R.id.btn_rxjava:
-                startActivity(context, RxJavaActivity.class);
+                startActivity(RxJavaActivity.class);
                 break;
             case R.id.btn_apk:
                 FileUtils.getInstance(HomeActivity.this).copyAssetsToSD("apks", "app/apks").
@@ -198,37 +117,37 @@ public class HomeActivity extends MyBaseActivity implements View.OnClickListener
 
                 break;
             case R.id.constraint:
-                startActivity(context, ConstraintLayoutActivity.class);
+                startActivity(ConstraintLayoutActivity.class);
                 break;
             case R.id.socket:
-                startActivity(context, SocketActivity.class);
+                startActivity(SocketActivity.class);
                 break;
             case R.id.coordinator:
-                startActivity(context, CoordinatorLayoutActivity.class);
+                startActivity(CoordinatorLayoutActivity.class);
                 break;
             case R.id.bmobSDK:
-                startActivity(context, BmobActivity.class);
+                startActivity(BmobActivity.class);
                 break;
             case R.id.kotlin:
-                startActivity(context, KotlinActivity.class);
+                startActivity(KotlinActivity.class);
                 break;
             case R.id.timeline:
-                startActivity(context, TimeLineActivity.class);
+                startActivity(TimeLineActivity.class);
                 break;
             case R.id.initFragment:
-                startActivity(context, FragmentInitActivity.class);
+                startActivity(FragmentInitActivity.class);
                 break;
             case R.id.vectorDrawable:
-                startActivity(context, VectorDrawableActivity.class);
+                startActivity(VectorDrawableActivity.class);
                 break;
             case R.id.gravitySensor:
-                startActivity(context, GravitySensorActivity.class);
+                startActivity(GravitySensorActivity.class);
                 break;
             case R.id.lottie:
-                startActivity(context, LottieActivity.class);
+                startActivity(LottieActivity.class);
                 break;
             case R.id.webView:
-                startActivity(context, WebviewActivity.class);
+                startActivity(WebviewActivity.class);
                 break;
         }
 

@@ -12,14 +12,17 @@ public class ExpandableTextViewActivity extends MyBaseActivity {
     private ExpandableTextView expand_text_view;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.expandabletextview);
-        initView();
+    protected int getLayoutResId() {
+        return R.layout.expandabletextview;
+    }
+
+    @Override
+    protected void initData() {
 
     }
 
-    private void initView() {
+    @Override
+    protected void initView() {
         expand_text_view = (ExpandableTextView) findViewById(R.id.expand_text_view);
 
         expand_text_view.setText("自去年以来，美国已有21名消费者向CPSC报告称，他们购买的三星上开门式洗衣机发生爆炸或支离破碎，在德州及印第安纳州等地提起控告。之后，CPSC向部分三星洗衣机用户发出警告称，使用三星上开门式洗衣机的用户需要注意，出厂日期为2011年3月至2016年4月之间洗衣机产品存在安全问题。\n" +

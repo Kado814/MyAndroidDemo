@@ -2,48 +2,32 @@ package com.myapplication.myandroiddemo.activity;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 
 import com.myapplication.myandroiddemo.R;
 
+import butterknife.OnClick;
+
 public class SqlLiteActivity extends MyBaseActivity implements View.OnClickListener {
-    private Button createBtn;
-    private Button insertBtn;
-    private Button updateBtn;
-    private Button queryBtn;
-    private Button deleteBtn;
-    private Button ModifyBtn;
+
     private MyDBHelper dbHelper;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sqllite);
-        creatView();
-        dbHelper = new MyDBHelper(context);
+    protected int getLayoutResId() {
+        return R.layout.activity_sqllite;
     }
-
-    private void creatView() {
-        createBtn = (Button) findViewById(R.id.createDatabase);
-        updateBtn = (Button) findViewById(R.id.updateDatabase);
-        insertBtn = (Button) findViewById(R.id.insert);
-        ModifyBtn = (Button) findViewById(R.id.update);
-        queryBtn = (Button) findViewById(R.id.query);
-        deleteBtn = (Button) findViewById(R.id.delete);
-
-        createBtn.setOnClickListener(this);
-        insertBtn.setOnClickListener(this);
-        updateBtn.setOnClickListener(this);
-        queryBtn.setOnClickListener(this);
-        deleteBtn.setOnClickListener(this);
-        ModifyBtn.setOnClickListener(this);
-    }
-
 
     @Override
+    protected void initData() {
+        dbHelper = new MyDBHelper(mContext);
+    }
+
+    @Override
+    protected void initView() {
+    }
+
+
+    @OnClick({R.id.createDatabase, R.id.updateDatabase, R.id.insert, R.id.update, R.id.query, R.id.delete})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.createDatabase:

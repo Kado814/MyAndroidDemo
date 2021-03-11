@@ -24,6 +24,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import butterknife.OnClick;
+
 /*
 * 为了告知系统程序是基于相机的，需要在清单文件中添加标签：
 * <uses-feature
@@ -34,7 +36,7 @@ Android:required为false。这样做的话，Google Play会允许不带相机的
 不过你有责任需要在运行时通过调用 hasSystemFeature(PackageManager.FEATURE_CAMERA) 方法检查设备上的相机是否可用。
 如果相机是不可用的，你应该禁用掉与相机相关的功能。
 * */
-public class CameraActivity extends MyBaseActivity implements View.OnClickListener {
+public class CameraActivity extends MyBaseActivity {
     private static int REQUEST_IMAGE_CAMERA = 1;
     private static int REQUEST_TAKE_PHOTE = 2;
     private static int REQUEST_VIDEO_CAPTURE = 3;
@@ -46,9 +48,17 @@ public class CameraActivity extends MyBaseActivity implements View.OnClickListen
     private String mCurrentPhotoPath;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_camera);
+    protected int getLayoutResId() {
+        return R.layout.activity_camera;
+    }
+
+    @Override
+    protected void initData() {
+
+    }
+
+    @Override
+    protected void initView() {
         creatView();
     }
 
@@ -58,14 +68,10 @@ public class CameraActivity extends MyBaseActivity implements View.OnClickListen
         systemvideo = findViewById(R.id.systemvideo);
         image1 = findViewById(R.id.image1);
         videoview = findViewById(R.id.videoview);
-
-        systemcarema.setOnClickListener(this);
-        systemcarema2.setOnClickListener(this);
-        systemvideo.setOnClickListener(this);
     }
 
 
-    @Override
+    @OnClick({R.id.systemcarema,R.id.systemcarema2,R.id.systemvideo})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.systemcarema:
@@ -124,6 +130,7 @@ public class CameraActivity extends MyBaseActivity implements View.OnClickListen
         /**Android的相机应用会将照片作为一个小的 Bitmap(缩略图) 对象打包进Intent中，
          * 然后通过 onActivityResult() 方法将该Intent返回。具体的Bitmap对象会附加在键”data”后
          * 从”data”中获得的缩略图像可能适合用于图标上面，但不适用于很大的图标。处理全尺寸的图像需要花费更多一点的工作**/
+        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_IMAGE_CAMERA) {
                 Bundle extra = data.getExtras();
@@ -133,7 +140,7 @@ public class CameraActivity extends MyBaseActivity implements View.OnClickListen
                     image1.setImageBitmap(bitmap);
                 }
             } else if (requestCode == REQUEST_TAKE_PHOTE) {
-                MyToast.showShort(context,"照片已经保存至" + mCurrentPhotoPath);
+                MyToast.showShort(mContext, "照片已经保存至" + mCurrentPhotoPath);
             } else if (requestCode == REQUEST_VIDEO_CAPTURE) {
                 Uri videoUri = data.getData();
                 videoview.setVideoURI(videoUri);
