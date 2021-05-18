@@ -23,6 +23,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".activity.ui.ShapeOfViewActivity"></activity>
         <activity
             android:name=".activity.ui.WebviewActivity"
             android:screenOrientation="sensorLandscape"
@@ -52,7 +53,6 @@
             android:name=".activity.ScrollingActivity"
             android:label="@string/title_activity_scrolling"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity android:name=".activity.DiyViewActivity" />
         <activity android:name=".activity.WatchActivity" />
         <activity android:name=".activity.JsoupActivity" />

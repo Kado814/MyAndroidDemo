@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    tools:context=".activity.ui.ShapeOfViewActivity">
+
+    <com.github.florent37.shapeofview.shapes.RoundRectView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="0dp"
+        app:shape_roundRect_borderColor="@color/black"
+        app:shape_roundRect_borderWidth="2dp"
+        app:shape_roundRect_bottomLeftRadius="10dp"
+        app:shape_roundRect_bottomRightRadius="10dp"
+        app:shape_roundRect_topLeftRadius="10dp"
+        app:shape_roundRect_topRightRadius="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_blue_bright"
+            android:padding="10dp"
+            android:text="RoundRectView" />
+    </com.github.florent37.shapeofview.shapes.RoundRectView>
+
+    <com.github.florent37.shapeofview.shapes.CircleView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:elevation="0dp"
+        app:shape_circle_borderColor="@color/black"
+        app:shape_circle_borderWidth="2dp">
+
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@android:color/holo_blue_bright"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="CircleView" />
+    </com.github.florent37.shapeofview.shapes.CircleView>
+
+    <com.github.florent37.shapeofview.shapes.CutCornerView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:elevation="0dp"
+        app:shape_cutCorner_bottomRightSize="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_blue_bright"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="CutCornerView" />
+    </com.github.florent37.shapeofview.shapes.CutCornerView>
+
+    <com.github.florent37.shapeofview.shapes.ArcView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:elevation="0dp"
+        app:shape_arc_height="10dp"
+        app:shape_arc_position="bottom">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_blue_bright"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="ArcView" />
+    </com.github.florent37.shapeofview.shapes.ArcView>
+
+    <com.github.florent37.shapeofview.shapes.DiagonalView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:elevation="0dp"
+        app:shape_diagonal_angle="5"
+        app:shape_diagonal_position="bottom">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_blue_bright"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="DiagonalView" />
+    </com.github.florent37.shapeofview.shapes.DiagonalView>
+
+    <com.github.florent37.shapeofview.shapes.TriangleView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:elevation="0dp"
+        app:shape_triangle_percentBottom="0.5"
+        app:shape_triangle_percentLeft="0"
+        app:shape_triangle_percentRight="0">
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="60dp"
+            android:background="@android:color/holo_blue_bright"
+            android:gravity="center_horizontal"
+            android:padding="10dp"
+            android:text="TriangleView" />
+    </com.github.florent37.shapeofview.shapes.TriangleView>
+
+    <com.github.florent37.shapeofview.shapes.PolygonView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:elevation="0dp"
+        app:shape_polygon_noOfSides="6">
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@android:color/holo_blue_bright"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="PolygonView" />
+    </com.github.florent37.shapeofview.shapes.PolygonView>
+
+    <com.github.florent37.shapeofview.shapes.StarView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:shape_star_noOfPoints="5">
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@android:color/holo_blue_bright"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="StarView" />
+    </com.github.florent37.shapeofview.shapes.StarView>
+
+    <com.github.florent37.shapeofview.shapes.BubbleView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        app:arrow_posititon_percent="0.5"
+        app:shape_bubble_arrowHeight="10dp"
+        app:shape_bubble_arrowPosition="bottom"
+        app:shape_bubble_arrowWidth="10dp"
+        app:shape_bubble_borderRadius="20dp">
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:background="@android:color/holo_blue_bright"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="StarView" />
+
+    </com.github.florent37.shapeofview.shapes.BubbleView>
+</LinearLayout>

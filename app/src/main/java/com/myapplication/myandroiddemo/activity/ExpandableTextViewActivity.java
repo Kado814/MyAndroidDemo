@@ -1,11 +1,10 @@
 package com.myapplication.myandroiddemo.activity;
 
-import android.os.Bundle;
-
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.myapplication.myandroiddemo.R;
+import com.myapplication.myandroiddemo.base.BaseActivity;
 
-public class ExpandableTextViewActivity extends MyBaseActivity {
+public class ExpandableTextViewActivity extends BaseActivity {
     /**
      * Called when the activity is first created.
      */

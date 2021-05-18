@@ -1,4 +1,4 @@
-package com.myapplication.myandroiddemo.activity;
+package com.myapplication.myandroiddemo.base;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,16 +21,16 @@ import butterknife.ButterKnife;
 /**
  * 我的Activity基类
  **/
-public abstract class MyBaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
     public Context mContext;
     /**
      * 记录处于前台的Activity
      */
-    private static MyBaseActivity mForegroundActivity = null;
+    private static BaseActivity mForegroundActivity = null;
     /**
      * 记录所有活动的Activity
      */
-    private static final List<MyBaseActivity> mActivities = new LinkedList<MyBaseActivity>();
+    private static final List<BaseActivity> mActivities = new LinkedList<BaseActivity>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -112,10 +112,10 @@ public abstract class MyBaseActivity extends AppCompatActivity {
     /**
      * 获取当前处于栈顶的activity，无论其是否处于前台
      */
-    public static MyBaseActivity getCurrentActivity() {
-        List<MyBaseActivity> copy;
+    public static BaseActivity getCurrentActivity() {
+        List<BaseActivity> copy;
         synchronized (mActivities) {
-            copy = new ArrayList<MyBaseActivity>(mActivities);
+            copy = new ArrayList<BaseActivity>(mActivities);
         }
         if (copy.size() > 0) {
             return copy.get(copy.size() - 1);
@@ -133,7 +133,7 @@ public abstract class MyBaseActivity extends AppCompatActivity {
     /**
      * 获取当前处于前台的activity
      */
-    public static MyBaseActivity getForegroundActivity() {
+    public static BaseActivity getForegroundActivity() {
         return mForegroundActivity;
     }
 
@@ -141,11 +141,11 @@ public abstract class MyBaseActivity extends AppCompatActivity {
      * 关闭所有Activity
      */
     public static void finishAll() {
-        List<MyBaseActivity> copy;
+        List<BaseActivity> copy;
         synchronized (mActivities) {
-            copy = new ArrayList<MyBaseActivity>(mActivities);
+            copy = new ArrayList<BaseActivity>(mActivities);
         }
-        for (MyBaseActivity activity : copy) {
+        for (BaseActivity activity : copy) {
             activity.finish();
         }
     }
@@ -153,12 +153,12 @@ public abstract class MyBaseActivity extends AppCompatActivity {
     /**
      * 关闭所有Activity，除了参数传递的Activity
      */
-    public static void finishAll(MyBaseActivity except) {
-        List<MyBaseActivity> copy;
+    public static void finishAll(BaseActivity except) {
+        List<BaseActivity> copy;
         synchronized (mActivities) {
-            copy = new ArrayList<MyBaseActivity>(mActivities);
+            copy = new ArrayList<BaseActivity>(mActivities);
         }
-        for (MyBaseActivity activity : copy) {
+        for (BaseActivity activity : copy) {
             if (activity != except)
                 activity.finish();
         }

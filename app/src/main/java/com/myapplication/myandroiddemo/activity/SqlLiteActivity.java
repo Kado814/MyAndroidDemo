@@ -5,10 +5,11 @@ import android.database.Cursor;
 import android.view.View;
 
 import com.myapplication.myandroiddemo.R;
+import com.myapplication.myandroiddemo.base.BaseActivity;
 
 import butterknife.OnClick;
 
-public class SqlLiteActivity extends MyBaseActivity implements View.OnClickListener {
+public class SqlLiteActivity extends BaseActivity implements View.OnClickListener {
 
     private MyDBHelper dbHelper;
 

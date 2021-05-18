@@ -1,6 +1,5 @@
 package com.myapplication.myandroiddemo.activity;
 
-import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,11 +11,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 import android.widget.VideoView;
 
 
 import com.myapplication.myandroiddemo.R;
+import com.myapplication.myandroiddemo.base.BaseActivity;
 import com.myapplication.myandroiddemo.myutils.MyToast;
 
 import java.io.File;
@@ -36,7 +35,7 @@ Android:required为false。这样做的话，Google Play会允许不带相机的
 不过你有责任需要在运行时通过调用 hasSystemFeature(PackageManager.FEATURE_CAMERA) 方法检查设备上的相机是否可用。
 如果相机是不可用的，你应该禁用掉与相机相关的功能。
 * */
-public class CameraActivity extends MyBaseActivity {
+public class CameraActivity extends BaseActivity {
     private static int REQUEST_IMAGE_CAMERA = 1;
     private static int REQUEST_TAKE_PHOTE = 2;
     private static int REQUEST_VIDEO_CAPTURE = 3;

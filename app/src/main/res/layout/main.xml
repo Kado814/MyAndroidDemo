@@ -102,13 +102,6 @@
                 android:textAllCaps="false" />
 
             <Button
-                android:id="@+id/btn_apk"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="加载apk"
-                android:textAllCaps="false" />
-
-            <Button
                 android:id="@+id/constraint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -190,6 +183,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="webView"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/shapeOfView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ShapeOfView"
                 android:textAllCaps="false" />
 
         </com.myapplication.myandroiddemo.diyview.FlowLayout>

@@ -2,7 +2,6 @@ package com.myapplication.myandroiddemo.activity;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -20,8 +19,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.myapplication.myandroiddemo.R;
+import com.myapplication.myandroiddemo.base.BaseActivity;
 
-public class SpannableStringBuilderActivity extends MyBaseActivity {
+public class SpannableStringBuilderActivity extends BaseActivity {
     /**
      * 一个内容和标记都可以更改的文本类
      */
